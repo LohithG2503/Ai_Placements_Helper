@@ -1,0 +1,233 @@
+{
+  "companies": {
+  "amazon": {
+    "name": "Amazon",
+    "description": "Amazon is a multinational technology company focusing on e-commerce, cloud computing, digital streaming, and artificial intelligence. Founded by Jeff Bezos in 1994 as an online bookstore, Amazon has expanded to become one of the world's most valuable companies and a leader in multiple technology sectors.",
+    "extendedDescription": [
+      "Amazon is a multinational technology company focusing on e-commerce, cloud computing, digital streaming, and artificial intelligence. Founded by Jeff Bezos in 1994 as an online bookstore, Amazon has expanded to become one of the world's most valuable companies and a leader in multiple technology sectors.",
+      "From its humble beginnings, Amazon has grown into the world's largest online marketplace, AI assistant provider, and cloud computing platform. The company has revolutionized retail with its vast selection, competitive pricing, and efficient delivery systems, including Amazon Prime which offers same-day or next-day delivery in many areas.",
+      "Amazon Web Services (AWS), launched in 2006, has become the world's leading cloud platform, providing infrastructure services to businesses of all sizes, from startups to large enterprises. AWS powers a significant portion of the internet, including major websites and applications.",
+      "The company also develops and manufactures electronic devices including Kindle e-readers, Fire tablets, Fire TVs, Echo devices, and Ring security systems. Amazon's digital content offerings include Prime Video, Amazon Music, Audible, and Twitch.",
+      "With over 1.5 million employees worldwide, Amazon maintains operations in more than 30 countries and has transformed online shopping, cloud computing, and digital content consumption."
+    ],
+    "industry": "E-commerce, Cloud Computing, Technology",
+    "founded": "1994",
+    "headquarters": "Seattle, Washington, USA",
+    "employeeCount": "1.5 million+",
+    "website": "https://www.amazon.com",
+    "ceo": "Andy Jassy",
+    "revenue": "$574.8 billion (2023)",
+    "pros": [
+      "Competitive compensation packages",
+      "Diverse work opportunities across many domains",
+      "Fast-paced and innovative environment",
+      "Strong benefits including healthcare and stock options",
+      "Career growth opportunities in a large organization"
+    ],
+    "cons": [
+      "Work-life balance can be challenging",
+      "High performance expectations",
+      "Intense work culture in some departments",
+      "Large company bureaucracy",
+      "Projects can change rapidly with shifting priorities"
+    ],
+    "hiringProcess": {
+      "avgTimeToHire": "3-6 weeks",
+      "applicationPortal": "https://www.amazon.jobs/",
+      "referralBonus": "Available for employees",
+      "requiredDocuments": [
+        "Updated Resume/CV",
+        "Cover Letter (for some positions)",
+        "Educational Certificates/Transcripts",
+        "Professional Certifications",
+        "Government-issued ID/Proof",
+        "Previous Employment Records",
+        "Background Check Authorization",
+        "References Contact Information"
+      ],
+      "backgroundCheckInfo": "Comprehensive background verification required"
+      },
+      "technologies": [
+        "AWS",
+        "Java",
+        "Python",
+        "JavaScript",
+        "React",
+        "Node.js",
+        "Machine Learning",
+        "AI"
+      ],
+      "products": [
+        "Amazon.com (E-commerce)",
+        "Amazon Web Services (Cloud)",
+        "Alexa",
+        "Kindle",
+        "Fire TV",
+        "Echo devices"
+      ],
+      "services": [
+        "Amazon Prime",
+        "Amazon Music",
+        "Prime Video",
+        "Amazon Fresh"
+      ],
+      "officeLocations": [
+        "Seattle, USA (HQ)",
+        "Arlington, USA",
+        "New York, USA",
+        "San Francisco, USA",
+        "London, UK",
+        "Berlin, Germany",
+        "Toronto, Canada"
+      ]
+  },
+  "infosys": {
+    "name": "Infosys",
+    "description": "Infosys is a global leader in next-generation digital services and consulting. The company has over four decades of experience managing the systems and operations of global enterprises, helping them navigate their digital transformation.",
+    "extendedDescription": [
+      "Infosys is a global leader in next-generation digital services and consulting. The company has over four decades of experience managing the systems and operations of global enterprises, helping them navigate their digital transformation.",
+      "Founded in 1981 by seven engineers with just $250 in capital, Infosys has grown to become a multinational corporation with a market cap of over $80 billion. The company provides business consulting, information technology and outsourcing services spanning multiple sectors including financial services, life sciences, healthcare, and retail.",
+      "With its headquarters in Bangalore, India, and a global footprint in over 50 countries, Infosys helps enterprises transform through strategic consulting, operational leadership, and the co-creation of breakthrough solutions, including those in mobility, sustainability, big data, and cloud computing.",
+      "Infosys is known for its strong corporate governance and commitment to education and sustainability. The company has consistently been recognized as one of the world's most ethical companies and is a pioneer in implementing environmentally sustainable practices across its operations."
+    ],
+    "industry": "IT Services, Consulting",
+    "founded": "1981",
+    "headquarters": "Bangalore, India",
+    "employeeCount": "300,000+",
+    "website": "https://www.infosys.com",
+    "ceo": "Salil Parekh",
+    "revenue": "$17.9 billion (2023)",
+    "hiringProcess": {
+      "avgTimeToHire": "3-4 weeks for experienced candidates, 2-3 months for campus recruitment",
+      "applicationPortal": "https://careers.infosys.com",
+      "referralBonus": "Available for employees, varies by role and location",
+      "requiredDocuments": [
+        "Resume/CV",
+        "Educational certificates",
+        "ID proof",
+        "Address proof",
+        "Previous employment proof",
+        "Background verification consent"
+      ],
+      "backgroundCheckInfo": "Comprehensive background verification including education, employment, and criminal records check"
+    },
+    "careerGrowth": {
+      "careerPaths": [
+        "Associate (Level 3): Entry-level position focused on skill development and training (1-2 years)",
+        "Senior Associate (Level 4): Enhanced responsibilities with technical specialization (2-4 years)",
+        "Technology Analyst (Level 5): Technical leadership and client-facing responsibilities (4-6 years)",
+        "Technology Lead (Level 6): Project leadership and mentoring junior team members (6-8 years)",
+        "Project Manager (Level 7): End-to-end project delivery and client relationship management (8-10 years)",
+        "Delivery Manager (Level 8): Multiple project oversight and strategic account planning (10-12 years)",
+        "Associate Vice President (Level 9): Business unit leadership and strategic planning (12+ years)"
+      ],
+      "promotionOpportunities": [
+        "Merit-based growth: Annual performance reviews with clearly defined KPIs",
+        "Fast-track programs: Accelerated promotion paths for top performers",
+        "Technical expertise track: Special path for technical specialists who prefer hands-on roles over management",
+        "Cross-functional mobility: Opportunities to move across different business units and technologies",
+        "Global rotation program: International assignments for broader exposure and growth"
+      ],
+      "trainingPrograms": [
+        "Infosys Leadership Institute: Comprehensive management development program with executive coaching",
+        "Global Education Center: Technical certifications and skill enhancement programs",
+        "Certified transition programs: Domain-specific training for industry specialization",
+        "Infosys Academy: Continuous learning platform with 1000+ courses",
+        "Digital technology upskilling: Specialized programs in AI, ML, blockchain, and cloud technologies"
+      ]
+      },
+      "technologies": [
+        "Java",
+        "Python",
+        "JavaScript",
+        "Cloud Computing",
+        "AI",
+        "Machine Learning",
+        "Blockchain",
+        "IoT",
+        "RPA",
+        "Data Analytics"
+      ],
+      "products": [
+        "Infosys Finacle",
+        "Infosys Wingspan",
+        "Infosys Cobalt",
+        "EdgeVerve Systems"
+      ],
+      "services": [
+        "Digital Transformation Services",
+        "Cloud Services",
+        "AI & Automation",
+        "Data Analytics",
+        "Engineering Services",
+        "Business Process Management"
+      ],
+      "officeLocations": [
+        "Bangalore, India (Headquarters)",
+        "Pune, India",
+        "Chennai, India",
+        "Hyderabad, India",
+        "New York, USA",
+        "London, UK",
+        "Frankfurt, Germany",
+        "Singapore",
+        "Sydney, Australia"
+      ]
+  },
+  "microsoft": {
+    "name": "Microsoft",
+    "description": "Microsoft is a multinational technology company that develops, manufactures, licenses, supports, and sells computer software, consumer electronics, personal computers, and related services.",
+    "extendedDescription": [
+      "Microsoft is a multinational technology company that develops, manufactures, licenses, supports, and sells computer software, consumer electronics, personal computers, and related services.",
+      "Founded in 1975 by Bill Gates and Paul Allen, Microsoft has grown to become one of the most valuable companies in the world. The company's flagship products include Windows operating system, Microsoft Office suite, and Azure cloud services.",
+      "Under CEO Satya Nadella's leadership since 2014, Microsoft has pivoted to focus on cloud computing and artificial intelligence while maintaining its strong position in productivity software and operating systems.",
+      "The company is also known for its hardware products including Xbox gaming consoles, Surface line of laptops and tablets, and more recently, mixed reality headsets with HoloLens.",
+      "With over 180,000 employees worldwide, Microsoft maintains operations in more than 100 countries and continues to expand its influence in enterprise software, cloud services, and consumer technology."
+    ],
+    "industry": "Technology, Software, Cloud Computing",
+    "founded": "1975",
+    "headquarters": "Redmond, Washington, USA",
+    "employeeCount": "180,000+",
+    "website": "https://www.microsoft.com",
+    "ceo": "Satya Nadella",
+    "revenue": "$211.9 billion (2023)",
+      "technologies": [
+        "Azure",
+        ".NET",
+        "C#",
+        "TypeScript",
+        "React",
+        "Windows",
+        "SQL Server",
+        "AI",
+        "Machine Learning"
+      ],
+      "products": [
+        "Windows",
+        "Office 365",
+        "Azure",
+        "Xbox",
+        "Surface",
+        "HoloLens"
+      ],
+      "services": [
+        "Microsoft 365",
+        "Azure Cloud Services",
+        "Dynamics 365",
+        "GitHub",
+        "LinkedIn"
+      ],
+      "officeLocations": [
+        "Redmond, USA (HQ)",
+        "Seattle, USA",
+        "Silicon Valley, USA",
+        "New York, USA",
+        "London, UK",
+        "Dublin, Ireland", 
+        "Singapore",
+        "Sydney, Australia",
+        "Tokyo, Japan"
+      ]
+    }
+  }
+} 
