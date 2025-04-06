@@ -39,7 +39,7 @@ function LoginPage({ onLogin }) {
     setLoading(true);
 
     try {
-      const response = await axios.post("http://localhost:5000/api/users/login", {
+      const response = await axios.post("http://localhost:5000/api/user/login", {
         email: loginData.email.trim().toLowerCase(),
         password: loginData.password.trim(),
       });
@@ -81,7 +81,7 @@ function LoginPage({ onLogin }) {
     }
     
     try {
-      const response = await axios.post("http://localhost:5000/api/users/register", {
+      const response = await axios.post("http://localhost:5000/api/user/register", {
         name: `${signupData.firstName.trim()} ${signupData.lastName.trim()}`,
         email: signupData.email.trim().toLowerCase(),
         password: trimmedPassword,

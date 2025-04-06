@@ -28,10 +28,10 @@ function CompanyDetails({ companyInsights }) {
         )}
         
         <div className="grid grid-cols-2 gap-x-8 gap-y-4">
-          <DataItem label="Industry" value={additionalInfo.industry} />
-          <DataItem label="Founded" value={additionalInfo.founded} />
-          <DataItem label="Headquarters" value={additionalInfo.headquarters} />
-          <DataItem label="Size" value={additionalInfo.sizeRange} />
+          <DataItem label="Industry " value={additionalInfo.industry} />
+          <DataItem label="Founded " value={additionalInfo.founded} />
+          <DataItem label="Headquarters " value={additionalInfo.headquarters} />
+          <DataItem label="Size " value={additionalInfo.sizeRange} />
           <DataItem 
             label="Current Employees" 
             value={additionalInfo.employeeCount}

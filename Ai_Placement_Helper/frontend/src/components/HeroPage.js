@@ -11,7 +11,7 @@ const HeroPage = () => {
   const [error, setError] = useState("");
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
-  const { setJobDetails, jobDetails, setShowNavbar } = useContext(JobContext);
+  const { setJobDetails, setShowNavbar } = useContext(JobContext);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -50,7 +50,7 @@ const HeroPage = () => {
         throw new Error("Authentication required. Please log in again.");
       }
 
-      const response = await fetch("http://localhost:5000/api/jobs/query", {
+      const response = await fetch("http://localhost:5000/api/job/query", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

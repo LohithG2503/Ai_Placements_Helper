@@ -1,11 +1,11 @@
 import express from "express";
 import axios from "axios";
 import { jsonrepair } from "jsonrepair";
-import { logError, logSuccess } from "../server.js";
-import { getCompanyInfo } from "../src/services/companyService.js";
+import CompanyService from "../src/services/companyService.js";
 
 const router = express.Router();
 const AI_MODEL_URL = "http://127.0.0.1:8080/completion";
+const companyService = new CompanyService();
 
 /**
  * @route   POST /api/jobs/query
@@ -71,24 +71,33 @@ ${job_description}`,
     let companyInfo = null;
     if (jobDetails.company && jobDetails.company !== "Not specified") {
       try {
-        companyInfo = await getCompanyInfo(jobDetails.company);
-        logSuccess("Company info fetched successfully", { company: jobDetails.company });
+        const result = await companyService.getCompanyInfo(jobDetails.company);
+        companyInfo = result.data;
+        console.log(`✅ Company info fetched successfully for: ${jobDetails.company}`);
       } catch (companyError) {
-        logError(companyError, "Company Info Fetching");
+        console.error(`❌ [Company Info Fetching] Error:`, companyError);
         // Don't fail the entire request if company info fails
-        companyInfo = { error: "Failed to fetch company information" };
+        companyInfo = { 
+          name: jobDetails.company,
+          description: `Information about ${jobDetails.company} could not be retrieved.`,
+          source: "Error"
+        };
       }
     }
 
     res.json({ 
+      success: true,
       job_details: jobDetails,
-      company_info: companyInfo
+      company_info: companyInfo,
+      timestamp: new Date().toISOString()
     });
   } catch (error) {
-    console.error("Error processing job description:", error);
+    console.error("❌ [Job Processing] Error:", error);
     res.status(500).json({ 
+      success: false,
       error: "Failed to process job description",
-      details: error.message 
+      details: error.message,
+      timestamp: new Date().toISOString()
     });
   }
 });
@@ -101,14 +110,24 @@ ${job_description}`,
 router.get('/company-details/:companyName', async (req, res) => {
   const { companyName } = req.params;
   try {
-    const companyInfo = await getCompanyInfo(companyName);
-    if (!companyInfo) {
-      return res.status(404).json({ error: 'Company details not found' });
+    if (!companyName || companyName.length < 2) {
+      return res.status(400).json({
+        success: false,
+        error: 'Company name must be at least 2 characters',
+        timestamp: new Date().toISOString()
+      });
     }
-    res.json(companyInfo);
+    
+    console.log(`Company details requested for: ${companyName}`);
+    const result = await companyService.getCompanyInfo(companyName);
+    return res.json(result);
   } catch (error) {
-    console.error('Error fetching company details:', error);
-    res.status(500).json({ error: 'Failed to fetch company details' });
+    console.error('❌ [Company Details] Error:', error);
+    res.status(500).json({ 
+      success: false, 
+      error: 'Failed to fetch company details',
+      timestamp: new Date().toISOString()
+    });
   }
 });
 
