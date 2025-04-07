@@ -1,0 +1,194 @@
+.past-interviews-header {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #4a35a0;
+  margin-bottom: 0.8rem;
+  text-align: center;
+  width: 100%;
+  margin-bottom: 1.2rem;
+  color: #4a35a0;
+  border-bottom: 1px solid rgba(147, 118, 225, 0.2);
+  padding-bottom: 0.8rem;
+}
+
+.company-header {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #4a35a0;
+  margin-bottom: 1rem;
+  text-align: center;
+  width: 100%;
+  margin-bottom: 1.2rem;
+  color: #4a35a0;
+  border-bottom: 1px solid rgba(147, 118, 225, 0.2);
+  padding-bottom: 0.8rem;
+}
+
+.interview-section {
+  margin-bottom: 0.8rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(147, 118, 225, 0.2);
+}
+
+.interview-section h2 {
+  font-size: 1.2rem;
+  color: #4a35a0;
+  margin-bottom: 0.4rem;
+}
+
+.interview-context {
+  color: #666;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.interview-section p {
+  color: #6b7280;
+  font-size: 0.85rem;
+}
+
+.upcoming-features {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background-color: #f3f4f6;
+  border-radius: 8px;
+}
+
+.upcoming-features h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 1rem;
+}
+
+.upcoming-features ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.upcoming-features li {
+  margin-bottom: 0.75rem;
+  padding-left: 1.75rem;
+  position: relative;
+  color: #4b5563;
+}
+
+.upcoming-features li:before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: #7c3aed;
+  font-weight: bold;
+}
+
+.loading-spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 150px;
+}
+
+.loading-spinner {
+  width: 36px;
+  height: 36px;
+  border: 4px solid rgba(147, 118, 225, 0.3);
+  border-radius: 50%;
+  border-top-color: #4a35a0;
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.view-toggle {
+  margin-bottom: 1rem;
+}
+
+/* Style for the TabsList component */
+.interview-section .tabs-list {
+  background-color: rgba(147, 118, 225, 0.1);
+  border-radius: 0.5rem;
+  padding: 0.25rem;
+}
+
+/* Style for the TabsTrigger component */
+.interview-section .tabs-trigger {
+  padding: 0.25rem 0.75rem;
+  font-size: 0.875rem;
+  border-radius: 0.35rem;
+  color: #666;
+  transition: all 0.2s ease;
+}
+
+.interview-section .tabs-trigger[data-state="active"] {
+  background-color: white;
+  color: #4a35a0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Style main card container */
+.company-card {
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  padding: 1.2rem;
+  margin-bottom: 1rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Add this for the YouTube integration to take full width */
+.company-card .youtube-container {
+  width: 100%;
+}
+
+/* Reduce spacing in main content */
+.main-content {
+  padding: 1rem 1.5rem;
+  max-width: 900px;
+  width: 92%;
+  margin: 0 auto;
+}
+
+/* Make container more compact with proper centering */
+.company-details-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #f9fafb;
+  transition: margin-left 0.3s ease;
+  margin-left: 0;
+  align-items: center;
+}
+
+/* Adjust spacing for sidebar */
+.company-details-container.sidebar-visible {
+  margin-left: 250px;
+  align-items: flex-start;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .main-content {
+    padding: 0.8rem 1rem;
+    width: 100%;
+  }
+  
+  .company-details-container.sidebar-visible {
+    margin-left: 0;
+    align-items: center;
+  }
+  
+  .past-interviews-header {
+    font-size: 1.3rem;
+  }
+  
+  .company-card {
+    padding: 1rem;
+  }
+} 

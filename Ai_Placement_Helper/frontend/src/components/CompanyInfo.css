@@ -1,9 +1,26 @@
 /* CompanyInfo.css */
+/* Variables for summary boxes */
+:root {
+  --card-bg: rgba(255, 255, 255, 0.7);
+  --card-hover-bg: rgba(255, 255, 255, 0.9);
+  --border-radius-md: 12px;
+  --shadow-sm: 0 2px 5px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.1);
+  --border-color: rgba(139, 92, 246, 0.15);
+  --text-primary: #4c1d95;
+  --text-secondary: #6d28d9;
+}
+
 .company-info-container {
   min-height: 100vh;
   background: var(--navbar-bg);
-  padding: 30px 20px;
-  transition: all 0.3s ease-out;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .content-area {
@@ -15,15 +32,17 @@
 
 .main-content {
   flex: 1;
-  padding: 20px;
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
   box-shadow: none;
   background: transparent;
   border-radius: 0;
+  padding-top: 20px;
 }
 
 /* Card styling */
@@ -34,11 +53,13 @@
   border-radius: 24px;
   padding: 45px;
   box-shadow: 0 10px 30px rgba(139, 92, 246, 0.15);
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
   border: none;
   transition: all 0.4s ease-out;
   overflow: hidden;
+  width: 100%;
+  display: block;
 }
 
 .company-card:hover {
@@ -62,15 +83,7 @@
 }
 
 .company-header::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100px;
-  height: 3px;
-  background: linear-gradient(90deg, rgba(139, 92, 246, 0.1), rgba(139, 92, 246, 0.6), rgba(139, 92, 246, 0.1));
-  border-radius: 3px;
+  display: none;
 }
 
 .glassmorphic-card {
@@ -666,7 +679,7 @@ a:hover {
   }
   
   .info-section {
-    padding: 20px;
+    padding: 15px;
   }
   
   .info-section h2 {
@@ -895,4 +908,90 @@ a:hover {
 
 .info-link:hover {
   color: #4c1d95;
-} 
+}
+
+/* Media queries */
+@media (max-width: 768px) {
+  .info-section {
+    padding: 15px;
+  }
+  
+  .basic-info-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .info-section {
+    padding: 10px;
+  }
+  
+  .about-subsection {
+    padding: 10px;
+  }
+}
+
+/* Company info summary boxes */
+.summary-boxes {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 24px;
+  padding: 0 16px 16px;
+}
+
+@media (max-width: 768px) {
+  .summary-boxes {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .summary-boxes {
+    grid-template-columns: 1fr;
+  }
+}
+
+.summary-box {
+  background: var(--card-bg);
+  border-radius: var(--border-radius-md);
+  padding: 16px;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.2s ease;
+  text-align: center;
+  min-height: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid var(--border-color);
+}
+
+.summary-box:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+  background: var(--card-hover-bg);
+}
+
+.summary-box h3 {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.summary-box p {
+  font-size: 16px;
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.company-card-container {
+  width: 100%;
+  max-width: 1400px;
+  display: flex;
+  justify-content: center;
+  padding: 0 20px;
+  box-sizing: border-box;
+  margin: 0 auto;
+}
