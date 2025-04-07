@@ -1,61 +1,65 @@
-import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
-import { JobProvider } from "./context/JobContext";
-import LoginPage from "./components/LoginPage";
-import HeroPage from "./components/HeroPage";
-import JobAnalyser from "./components/JobAnalyser";
-import CompanyInfo from "./components/CompanyInfo";
-import PastInterviews from "./components/PastInterviews";
-import "./App.css";
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
+import { ToastProvider } from './components/ui/toast';
+import { JobProvider } from './context/JobContext';
+import './index.css';
+
+// Import components
+import Navbar from './components/Navbar';
+import JobAnalyser from './components/JobAnalyser';
+import CompanyInfo from './components/CompanyInfo';
+import PastInterviews from './components/PastInterviews';
+import LoginPage from './components/LoginPage';
+import HeroPage from './components/HeroPage';
+
+// AuthContext to manage authentication state across the app
+export const AuthContext = React.createContext();
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  
+  // Check authentication status on initial load
   useEffect(() => {
     const token = localStorage.getItem("token");
-    setIsAuthenticated(!!token);
-
-    // Apply body style directly to ensure no white space
-    document.body.style.margin = "0";
-    document.body.style.padding = "0";
-    document.body.style.background = "#7c3aed";
-    document.documentElement.style.margin = "0";
-    document.documentElement.style.padding = "0";
-    document.documentElement.style.background = "#7c3aed";
+    setIsLoggedIn(!!token);
   }, []);
 
   const handleLogin = () => {
-    const token = localStorage.getItem("token");
-    setIsAuthenticated(!!token);
+    setIsLoggedIn(true);
+  };
+
+  const handleLogout = () => {
+    // Clear all auth-related data
+    localStorage.removeItem("token");
+    localStorage.removeItem("jobDetails");
+    
+    // Update state to trigger re-render
+    setIsLoggedIn(false);
   };
 
   return (
-    <JobProvider>
-      <Router>
-        <div className="app-container">
-          <Routes>
-            <Route
-              path="/"
-              element={isAuthenticated ? <HeroPage /> : <Navigate to="/login" />}
-            />
-            <Route
-              path="/login"
-              element={<LoginPage onLogin={handleLogin} />}
-            />
-            
-            {isAuthenticated && (
-              <>
-                <Route path="/job-analyser" element={<JobAnalyser />} />
-                <Route path="/company-info" element={<CompanyInfo />} />
-                <Route path="/past-interviews" element={<PastInterviews />} />
-              </>
-            )}
-
-            <Route path="*" element={<Navigate to="/" />} />
-          </Routes>
-        </div>
-      </Router>
-    </JobProvider>
+    <AuthContext.Provider value={{ isLoggedIn, handleLogin, handleLogout }}>
+      <ToastProvider>
+        <JobProvider>
+          <Router>
+            <div className="App">
+              {isLoggedIn && <Navbar />}
+              <main>
+                <Routes>
+                  <Route path="/login" element={!isLoggedIn ? <LoginPage /> : <Navigate to="/" />} />
+                  <Route path="/" element={isLoggedIn ? <HeroPage /> : <Navigate to="/login" />} />
+                  <Route path="/job-analyser" element={isLoggedIn ? <JobAnalyser /> : <Navigate to="/login" />} />
+                  <Route path="/company-info" element={isLoggedIn ? <CompanyInfo /> : <Navigate to="/login" />} />
+                  <Route path="/past-interviews" element={isLoggedIn ? <PastInterviews /> : <Navigate to="/login" />} />
+                  {/* Catch-all route to redirect to login */}
+                  <Route path="*" element={<Navigate to={isLoggedIn ? "/" : "/login"} />} />
+                </Routes>
+              </main>
+            </div>
+          </Router>
+        </JobProvider>
+      </ToastProvider>
+    </AuthContext.Provider>
   );
 }
 

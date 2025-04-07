@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { JobContext } from "../context/JobContext";
+import { AuthContext } from "../App";
 import Navbar from "./Navbar";
 import "./HeroPage.css";
 import "./JobAnalyser.css"; // Import for consistent button styling
@@ -12,6 +13,7 @@ const HeroPage = () => {
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
   const { setJobDetails, setShowNavbar } = useContext(JobContext);
+  const { handleLogout } = useContext(AuthContext);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -98,13 +100,6 @@ const HeroPage = () => {
     } finally {
       setLoading(false);
     }
-  };
-
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("jobDetails");
-    setShowNavbar(false);
-    navigate("/login");
   };
 
   const handleDismissError = () => {

@@ -132,7 +132,7 @@ router.post("/login", async (req, res) => {
     // Generate JWT Token
     const token = jwt.sign(
       { userId: user._id },
-      process.env.JWT_SECRET || 'your-fallback-secret',
+      process.env.JWT_SECRET,
       { expiresIn: "1h" }
     );
 

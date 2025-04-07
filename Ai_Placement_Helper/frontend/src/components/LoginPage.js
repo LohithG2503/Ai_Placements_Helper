@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../App";
 import "./Auth.css";
 
-function LoginPage({ onLogin }) {
+function LoginPage() {
+  const { handleLogin } = useContext(AuthContext);
   const [isFlipped, setIsFlipped] = useState(false);
   const [loginData, setLoginData] = useState({
     email: "",
@@ -32,7 +34,7 @@ function LoginPage({ onLogin }) {
     }
   }, [error, message]);
 
-  const handleLogin = async (e) => {
+  const handleLoginSubmit = async (e) => {
     e.preventDefault();
     setError(null);
     setMessage("");
@@ -48,7 +50,7 @@ function LoginPage({ onLogin }) {
         localStorage.setItem("token", response.data.token);
         setMessage("Login successful!");
         setTimeout(() => {
-          onLogin();
+          handleLogin();
           navigate("/");
         }, 1000);
       }
@@ -143,7 +145,7 @@ function LoginPage({ onLogin }) {
           {/* Login Form */}
           <div className="login-form">
             <h2 className="form-title">Welcome Back!</h2>
-            <form onSubmit={handleLogin}>
+            <form onSubmit={handleLoginSubmit}>
               <div className="form-group">
                 <label htmlFor="email" className="form-label">Email Address</label>
                 <input
