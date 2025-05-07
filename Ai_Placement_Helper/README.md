@@ -65,6 +65,31 @@ Each will open in a new terminal window.
 
 ---
 
+## Environment Variables Setup
+
+This project uses environment variables to manage sensitive configuration. To set up:
+
+1. Copy `.env.example` to a new file named `.env` in the backend directory:
+   ```bash
+   cp backend/.env.example backend/.env
+   ```
+
+2. Fill in your environment variables in the `.env` file:
+   - `PORT`: Server port (default: 5000)
+   - `MONGO_URI`: Your MongoDB connection string
+   - `JWT_SECRET`: A secure random string for JWT signing
+   - `SERP_API_KEY`: Your SERP API key
+   - `GOOGLE_KG_API_KEY`: Your Google Knowledge Graph API key
+
+⚠️ IMPORTANT: Never commit the `.env` file to version control. It's already added to `.gitignore`.
+
+For production deployment:
+- Use environment variables provided by your hosting platform
+- Set NODE_ENV=production
+- Configure CORS_ORIGIN with your frontend domain
+
+---
+
 ## Project Structure
 
 - `/backend` – Node.js/Express API, MongoDB models, routes, and services

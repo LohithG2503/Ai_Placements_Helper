@@ -7,39 +7,78 @@ import axios from "axios";
 // Load environment variables immediately
 dotenv.config();
 
+// Validate required environment variables
+const requiredEnvVars = {
+  MONGO_URI: process.env.MONGO_URI,
+  JWT_SECRET: process.env.JWT_SECRET
+};
+
+// Optional environment variables with defaults
+const optionalEnvVars = {
+  PORT: process.env.PORT || 5000,
+  NODE_ENV: process.env.NODE_ENV || 'development'
+};
+
+// Validate required environment variables
+const missingVars = Object.entries(requiredEnvVars)
+  .filter(([_, value]) => !value)
+  .map(([key]) => key);
+
+if (missingVars.length > 0) {
+  console.error('❌ Missing required environment variables:', missingVars.join(', '));
+  console.error('Please check your .env file and ensure all required variables are set');
+  process.exit(1);
+}
+
 // Now import modules that might need environment variables
 import companyRoutes from "./routes/companyRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import jobRoutes from "./routes/jobRoutes.js";
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = optionalEnvVars.PORT;
 
-// Check if required environment variables are set (now they should be loaded)
-if (!process.env.SERP_API_KEY) {
-  console.warn("SERP_API_KEY is not set in .env file. API fallbacks may not work correctly.");
-} else {
-  console.log("✅ SerpAPI key loaded successfully.");
-}
-
-// Connect to MongoDB
-mongoose.connect(process.env.MONGO_URI)
-  .then(() => {
-    console.log('✅ MongoDB Connected Successfully');
-  })
-  .catch(err => {
-    console.error('❌ MongoDB Connection Error:', err.message);
-    process.exit(1);
-  });
+// Connect to MongoDB with secure options
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  // Enable SSL for production environments
+  ssl: process.env.NODE_ENV === 'production',
+  sslValidate: process.env.NODE_ENV === 'production',
+})
+.then(() => {
+  console.log('✅ MongoDB Connected Successfully');
+})
+.catch(err => {
+  console.error('❌ MongoDB Connection Error:', err.message);
+  process.exit(1);
+});
 
 // Middleware
 app.use(express.json());
-app.use(cors({ origin: "http://localhost:3000" }));
+app.use(cors({ 
+  origin: process.env.NODE_ENV === 'production' 
+    ? process.env.CORS_ORIGIN || 'https://yourdomain.com' 
+    : 'http://localhost:3000',
+  credentials: true
+}));
 
 // Routes
 app.use("/api/company", companyRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/job", jobRoutes);
+
+// API status endpoint that doesn't expose sensitive info
+app.get('/api/status', (req, res) => {
+  res.json({ 
+    status: 'healthy',
+    environment: process.env.NODE_ENV,
+    apis: {
+      serpApi: !!process.env.SERP_API_KEY,
+      googleKg: !!process.env.GOOGLE_KG_API_KEY
+    }
+  });
+});
 
 // Debug route to verify API is working
 app.get('/api/test', (req, res) => {
@@ -158,5 +197,5 @@ console.log('  - GET /api/job/youtube-search');
 
 // Start server
 app.listen(PORT, () => {
-  console.log(`🚀 Server is running on port ${PORT}`);
+  console.log(`🚀 Server is running on port ${PORT} in ${process.env.NODE_ENV} mode`);
 });
