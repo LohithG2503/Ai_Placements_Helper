@@ -38,14 +38,8 @@ import jobRoutes from "./routes/jobRoutes.js";
 const app = express();
 const PORT = optionalEnvVars.PORT;
 
-// Connect to MongoDB with secure options
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  // Enable SSL for production environments
-  ssl: process.env.NODE_ENV === 'production',
-  sslValidate: process.env.NODE_ENV === 'production',
-})
+// Connect to MongoDB
+mongoose.connect(process.env.MONGO_URI)
 .then(() => {
   console.log('✅ MongoDB Connected Successfully');
 })
@@ -197,5 +191,5 @@ console.log('  - GET /api/job/youtube-search');
 
 // Start server
 app.listen(PORT, () => {
-  console.log(`🚀 Server is running on port ${PORT} in ${process.env.NODE_ENV} mode`);
+  console.log(`🚀 Server is running on port ${PORT} in ${optionalEnvVars.NODE_ENV} mode`);
 });
