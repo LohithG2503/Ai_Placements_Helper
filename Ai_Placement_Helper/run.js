@@ -2,17 +2,22 @@ const { spawn, exec } = require('child_process');
 const path = require('path');
 const fs = require('fs');
 
+// Keep track of opened terminal processes
+let openedProcesses = [];
+
 // Function to open a new terminal window and run a command
 function openTerminal(title, command, cwd) {
     const fullCommand = `start "${title}" cmd /k "cd ${cwd} && ${command}"`;
-    spawn(fullCommand, [], { shell: true });
+    const process = spawn(fullCommand, [], { shell: true });
+    openedProcesses.push(process);
+    return process;
 }
 
 // Function to run a command and return a promise
 function runCommand(command, cwd) {
     return new Promise((resolve, reject) => {
         console.log(`Running: ${command}`);
-        exec(command, { cwd }, (error, stdout, stderr) => {
+        const childProcess = exec(command, { cwd }, (error, stdout, stderr) => {
             if (error) {
                 console.error(`Error executing command: ${error.message}`);
                 return reject(error);
@@ -21,8 +26,40 @@ function runCommand(command, cwd) {
             console.log(`Command stdout: ${stdout}`);
             resolve(stdout);
         });
+        openedProcesses.push(childProcess);
     });
 }
+
+// Cleanup function to handle interruption
+async function cleanup() {
+    console.log('\n\nCleaning up...');
+    
+    // Kill all opened processes
+    openedProcesses.forEach(process => {
+        try {
+            process.kill();
+        } catch (err) {
+            // Ignore errors if process is already terminated
+        }
+    });
+
+    // Attempt to uninstall dependencies
+    try {
+        console.log('Reverting backend dependencies...');
+        await runCommand('npm uninstall', backendPath);
+        console.log('Reverting frontend dependencies...');
+        await runCommand('npm uninstall', frontendPath);
+        console.log('✅ Cleanup completed successfully');
+    } catch (error) {
+        console.error('❌ Error during cleanup:', error.message);
+    }
+    
+    process.exit(0);
+}
+
+// Handle Ctrl+C and other termination signals
+process.on('SIGINT', cleanup);  // Ctrl+C
+process.on('SIGTERM', cleanup); // Kill command
 
 // Get the absolute paths
 const backendPath = path.join(__dirname, 'backend');
@@ -36,9 +73,20 @@ async function startApp() {
         console.log('=========================================');
         console.log('AI Placement Helper - Unified Startup');
         console.log('=========================================\n');
+        console.log('Press Ctrl+C at any time to cancel and revert changes\n');
+
+        // Install backend dependencies
+        console.log('1. Installing backend dependencies...');
+        await runCommand('npm install', backendPath);
+        console.log('✅ Backend dependencies installed\n');
+
+        // Install frontend dependencies
+        console.log('2. Installing frontend dependencies...');
+        await runCommand('npm install', frontendPath);
+        console.log('✅ Frontend dependencies installed\n');
 
         // Start LLM server first
-        console.log('1. Starting LLM server...');
+        console.log('3. Starting LLM server...');
         if (fs.existsSync(path.join(llamaPath, 'llama-server.exe'))) {
             openTerminal('LLM Server', `llama-server.exe -m "${modelPath}" --port 8080 --host 127.0.0.1 --n-gpu-layers 95 --threads 12`, llamaPath);
             console.log('✅ LLM server terminal opened - will be available at http://localhost:8080\n');
@@ -51,7 +99,7 @@ async function startApp() {
         await new Promise(resolve => setTimeout(resolve, 3000));
 
         // Start backend server
-        console.log('2. Starting backend server...');
+        console.log('4. Starting backend server...');
         openTerminal('Backend Server', 'npm start', backendPath);
         console.log('✅ Backend terminal opened - will be available at http://localhost:5000\n');
 
@@ -60,7 +108,7 @@ async function startApp() {
         await new Promise(resolve => setTimeout(resolve, 5000));
 
         // Start frontend development server
-        console.log('3. Starting frontend development server...');
+        console.log('5. Starting frontend development server...');
         openTerminal('Frontend Server', 'npm start', frontendPath);
         console.log('✅ Frontend terminal opened - will be available at http://localhost:3000\n');
 
@@ -70,8 +118,9 @@ async function startApp() {
         console.log('To stop the application, simply close the terminal windows.');
     } catch (error) {
         console.error('❌ Error during startup:', error.message);
+        console.error('Please try running npm install manually in both backend and frontend directories');
     }
 }
 
 // Run the main function
-startApp(); 
+startApp();
