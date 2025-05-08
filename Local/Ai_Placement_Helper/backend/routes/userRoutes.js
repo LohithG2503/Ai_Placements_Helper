@@ -154,28 +154,28 @@ router.post("/login", async (req, res) => {
 });
 
 // Special route to recreate test user
-router.post("/recreate-test-user", async (req, res) => {
-  try {
-    // Try to delete the user if it exists
-    await mongoose.connection.db.collection('users').deleteOne({ email: "lohith2503@gmail.com" });
-    
-    // Create the user with the specific ID and password hash
-    const result = await mongoose.connection.db.collection('users').insertOne({
-      _id: new mongoose.Types.ObjectId("67d15a55d6409a20f08aacb8"),
-      name: "lohith",
-      email: "lohith2503@gmail.com",
-      password: "$2b$10$5aaNk.kXU1m.iibu.DCM2ew9WM0.k02F0ZDnSF7C3aqLokyC0tKxO",
-      passwordVersion: 1,
-      createdAt: new Date(),
-      updatedAt: new Date()
-    });
-    
-    console.log('Test user recreated with specific ID and password hash');
-    res.status(201).json({ message: "Test user recreated successfully", userId: "67d15a55d6409a20f08aacb8" });
-  } catch (error) {
-    console.error("Error recreating test user:", error);
-    res.status(500).json({ message: "Server Error", error: error.message });
-  }
-});
+//router.post("/recreate-test-user", async (req, res) => {
+//  try {
+//    // Try to delete the user if it exists
+//    await mongoose.connection.db.collection('users').deleteOne({ email: "lohith2503@gmail.com" });
+//    
+//    // Create the user with the specific ID and password hash
+//    const result = await mongoose.connection.db.collection('users').insertOne({
+//      _id: new mongoose.Types.ObjectId("67d15a55d6409a20f08aacb8"),
+//      name: "lohith",
+//      email: "lohith2503@gmail.com",
+//      password: "$2b$10$5aaNk.kXU1m.iibu.DCM2ew9WM0.k02F0ZDnSF7C3aqLokyC0tKxO",
+//      passwordVersion: 1,
+//      createdAt: new Date(),
+//      updatedAt: new Date()
+//    });
+//    
+//    console.log('Test user recreated with specific ID and password hash');
+//    res.status(201).json({ message: "Test user recreated successfully", userId: "67d15a55d6409a20f08aacb8" });
+//  } catch (error) {
+//    console.error("Error recreating test user:", error);
+//    res.status(500).json({ message: "Server Error", error: error.message });
+//  }
+//});
 
 export default router;
