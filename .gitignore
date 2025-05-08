@@ -57,5 +57,6 @@ V0 Codes/
 # Misc
 .DS_Store
 *.pem 
-package-lock.json
-package.json
+Cloud/Ai_Placement_Helper/backend/package-lock.json
+Cloud/Ai_Placement_Helper/backend/package.json
+Cloud/Ai_Placement_Helper/frontend/src/components/textfile.txt

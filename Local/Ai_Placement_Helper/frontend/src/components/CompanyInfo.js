@@ -742,7 +742,7 @@ function CompanyInfo() {
                         className="search-result-item"
                         onClick={() => handleSelectCompany(result)}
                       >
-                        <span className="company-result-name">{result}</span>
+                        <span className="company-result-name">{typeof result === "string" ? result : result.name}</span>
                         <span className="click-hint">Click to view details</span>
                       </div>
                     ))}

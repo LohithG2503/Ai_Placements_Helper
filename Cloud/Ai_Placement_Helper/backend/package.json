@@ -1,6 +1,7 @@
 {
   "type": "module",
   "dependencies": {
+    "@mistralai/mistralai": "^1.6.0",
     "axios": "^1.7.9",
     "bcryptjs": "^3.0.2",
     "cheerio": "^1.0.0",

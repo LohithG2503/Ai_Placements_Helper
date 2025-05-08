@@ -1,5 +1,3 @@
-/* CompanyInfo.css */
-/* Variables for summary boxes */
 :root {
   --card-bg: rgba(255, 255, 255, 0.7);
   --card-hover-bg: rgba(255, 255, 255, 0.9);
@@ -48,8 +46,8 @@
 /* Card styling */
 .company-card {
   background: linear-gradient(135deg, rgba(233, 227, 255, 0.6), rgba(233, 227, 255, 0.8));
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
+  /* -webkit-backdrop-filter: blur(10px); */ /* Keep commented out for now */
+  /* backdrop-filter: blur(10px); */ /* Keep commented out for now */
   border-radius: 24px;
   padding: 45px;
   box-shadow: 0 10px 30px rgba(139, 92, 246, 0.15);
@@ -57,15 +55,19 @@
   margin: 0 auto;
   border: none;
   transition: all 0.4s ease-out;
-  overflow: hidden;
   width: 100%;
   display: block;
+  overflow: visible;
+  min-height: auto;
+  transform: translateZ(0);
 }
 
 .company-card:hover {
   transform: translateY(-3px);
   box-shadow: 0 15px 40px rgba(139, 92, 246, 0.18);
   background: linear-gradient(135deg, rgba(233, 227, 255, 0.7), rgba(233, 227, 255, 0.9));
+  position: relative;
+  z-index: 100;
 }
 
 .company-header {
@@ -119,125 +121,16 @@
   box-shadow: 0 5px 15px rgba(139, 92, 246, 0.12);
   border: none;
   transition: all 0.3s ease-out;
-  display: flex;
-  gap: 6px;
-  align-items: center;
-  overflow: hidden;
+  position: relative;
+  z-index: 100;
 }
 
 .search-section:hover {
   box-shadow: 0 10px 25px rgba(139, 92, 246, 0.18);
   background: linear-gradient(135deg, rgba(233, 227, 255, 0.5), rgba(233, 227, 255, 0.7));
-}
-
-.search-input-container {
+  transition: all 0.3s ease-out;
   position: relative;
-  flex-grow: 1;
-  z-index: 1000;
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-}
-
-.search-input {
-  width: 100%;
-  padding: 12px 15px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 16px;
-  height: 45px;
-  transition: all 0.3s ease;
-}
-
-.search-input:focus {
-  border-color: #4a90e2;
-  box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
-  outline: none;
-}
-
-.search-input::placeholder {
-  color: #a78bfa;
-  font-size: 0.6rem;
-}
-
-.search-results {
-  display: block !important;
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  width: 100%;
-  max-height: 250px;
-  overflow-y: auto;
-  background-color: white;
-  border: 1px solid #ccc;
-  border-radius: 0 0 5px 5px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  z-index: 1000;
-  margin-top: 2px;
-  animation: fadeIn 0.2s ease-in-out;
-  opacity: 1;
-  visibility: visible;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.search-result-item {
-  padding: 12px 15px;
-  cursor: pointer;
-  border-bottom: 1px solid #eee;
-  font-size: 15px;
-  transition: background-color 0.2s;
-}
-
-.search-result-item:hover {
-  background-color: #f5f8ff;
-}
-
-.company-name {
-  font-weight: bold;
-}
-
-.company-industry {
-  color: #666;
-  font-size: 13px;
-}
-
-.company-location {
-  color: #8b5cf6;
-  font-size: 0.6rem;
-  margin-top: 0;
-}
-
-.search-result-item:hover .company-name {
-  color: #4e258e;
-  text-shadow: 0 0 2px rgba(255, 255, 255, 1);
-}
-
-.click-hint {
-  color: #8b5cf6;
-  font-size: 0.6rem;
-  font-style: italic;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  margin-left: 3px;
-  background-color: rgba(139, 92, 246, 0.08);
-  padding: 2px 5px;
-  border-radius: 6px;
-}
-
-.search-result-item:hover .click-hint {
-  opacity: 0.9;
-}
-
-.no-results-found {
-  padding: 15px;
-  text-align: center;
-  color: #666;
-  font-style: italic;
+  z-index: 1;
 }
 
 .search-input-icon {
@@ -258,16 +151,17 @@
   .search-section {
     flex-direction: column;
   }
-  
+
   .search-input-container {
     width: 100%;
   }
-  
+
   .search-results {
     width: 100%;
   }
-  
-  .search-button, .clear-button {
+
+  .search-button,
+  .clear-button {
     width: 100%;
     margin-top: 10px;
   }
@@ -318,15 +212,17 @@
 /* Information section */
 .info-section {
   background: linear-gradient(135deg, rgba(233, 227, 255, 0.6), rgba(233, 227, 255, 0.8));
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
+  /* -webkit-backdrop-filter: blur(10px); */ /* Kept commented out */
+  /* backdrop-filter: blur(10px); */ /* Kept commented out */
   border-radius: 20px;
   padding: 30px;
   margin: 25px 0;
   box-shadow: 0 8px 25px rgba(139, 92, 246, 0.12);
   border: none;
   transition: all 0.3s ease-out;
-  overflow: hidden !important;
+  /* overflow: hidden !important; */ /* Kept commented out */
+  position: relative;
+  z-index: 1;
 }
 
 .info-section:hover {
@@ -406,9 +302,9 @@
   line-height: 1.5;
 }
 
-.achievement-item, 
-.award-item, 
-.product-item, 
+.achievement-item,
+.award-item,
+.product-item,
 .location-item {
   background: linear-gradient(135deg, rgba(232, 221, 255, 0.75), rgba(213, 200, 250, 0.85));
   border-radius: 10px;
@@ -420,9 +316,9 @@
   transition: all 0.3s ease-out;
 }
 
-.achievement-item:hover, 
-.award-item:hover, 
-.product-item:hover, 
+.achievement-item:hover,
+.award-item:hover,
+.product-item:hover,
 .location-item:hover {
   transform: translateY(-2px);
   box-shadow: 0 5px 12px rgba(139, 92, 246, 0.12);
@@ -430,9 +326,9 @@
   border: 1px solid rgba(159, 122, 234, 0.4);
 }
 
-.achievement-item::before, 
-.award-item::before, 
-.product-item::before, 
+.achievement-item::before,
+.award-item::before,
+.product-item::before,
 .location-item::before {
   content: "•";
   position: absolute;
@@ -466,8 +362,8 @@
   border: 1px solid rgba(139, 92, 246, 0.25);
 }
 
-.environment-item, 
-.hiring-item, 
+.environment-item,
+.hiring-item,
 .salary-item,
 .summary-item {
   background: linear-gradient(135deg, rgba(232, 221, 255, 0.75), rgba(213, 200, 250, 0.85));
@@ -478,8 +374,8 @@
   transition: all 0.3s ease-out;
 }
 
-.environment-item:hover, 
-.hiring-item:hover, 
+.environment-item:hover,
+.hiring-item:hover,
 .salary-item:hover,
 .summary-item:hover {
   transform: translateY(-2px);
@@ -488,12 +384,12 @@
   border: 1px solid rgba(159, 122, 234, 0.25);
 }
 
-.env-label, 
-.hiring-label, 
-.salary-label, 
-.culture-label, 
-.benefit-label, 
-.growth-label, 
+.env-label,
+.hiring-label,
+.salary-label,
+.culture-label,
+.benefit-label,
+.growth-label,
 .process-label {
   font-weight: 600;
   color: #6d28d9;
@@ -501,12 +397,12 @@
   margin-bottom: 5px;
 }
 
-.env-value, 
-.hiring-value, 
-.salary-value, 
-.culture-value, 
-.benefit-value, 
-.growth-value, 
+.env-value,
+.hiring-value,
+.salary-value,
+.culture-value,
+.benefit-value,
+.growth-value,
 .process-value {
   color: #4c1d95;
   line-height: 1.5;
@@ -637,9 +533,11 @@ a:hover {
   0% {
     opacity: 0.6;
   }
+
   50% {
     opacity: 1;
   }
+
   100% {
     opacity: 0.6;
   }
@@ -657,35 +555,37 @@ a:hover {
   .content-area {
     margin-left: 0;
     padding: 1rem;
-    padding-top: 80px; /* Space for horizontal navbar */
+    padding-top: 80px;
+    /* Space for horizontal navbar */
   }
-  
+
   .company-info-container {
     flex-direction: column;
   }
-  
+
   .search-section {
     flex-direction: column;
     padding: 20px;
   }
-  
-  .search-button, .clear-button {
+
+  .search-button,
+  .clear-button {
     width: 100%;
     padding: 14px;
   }
-  
+
   .info-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .info-section {
     padding: 15px;
   }
-  
+
   .info-section h2 {
     font-size: 1.4rem;
   }
-  
+
   .company-header {
     font-size: 1.8rem;
   }
@@ -915,7 +815,7 @@ a:hover {
   .info-section {
     padding: 15px;
   }
-  
+
   .basic-info-grid {
     grid-template-columns: 1fr;
   }
@@ -925,7 +825,7 @@ a:hover {
   .info-section {
     padding: 10px;
   }
-  
+
   .about-subsection {
     padding: 10px;
   }

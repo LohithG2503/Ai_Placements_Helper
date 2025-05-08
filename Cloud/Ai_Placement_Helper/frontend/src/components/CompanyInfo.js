@@ -10,7 +10,7 @@ import "./Search.css"; // Add this import for search styling
 import "./CompanyInfo.css"; // Add this import for company info styling
 
 function CompanyInfo() {
-  const { jobDetails, setShowNavbar } = useContext(JobContext); // Removed unused showNavbar
+  const { jobDetails, showNavbar, setShowNavbar } = useContext(JobContext);
   const { handleLogout } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -60,89 +60,6 @@ function CompanyInfo() {
     };
 
     loadCompanyList();
-  }, []);
-
-  // Process raw text to prevent duplicate entries
-  const processDescription = (desc, name) => {
-    if (!desc) return `Information about ${name} is being compiled.`;
-    
-    // First, remove the exact duplicate paragraphs that often appear twice in a row
-    let cleanText = desc.replace(/^(.+)(?:\s*\n\s*\1\s*)+$/gm, '$1');
-    
-    // Then check if the description contains exact duplicate sentences
-    const sentences = cleanText.split(/\.\s+/);
-    const uniqueSentences = [];
-    const seenSentences = new Set();
-    
-    sentences.forEach(sentence => {
-      // Clean the sentence
-      const cleanSentence = sentence.trim().replace(/\.$/, '');
-      if (cleanSentence && !seenSentences.has(cleanSentence.toLowerCase())) {
-        seenSentences.add(cleanSentence.toLowerCase());
-        uniqueSentences.push(cleanSentence);
-      }
-    });
-    
-    return uniqueSentences.join('. ') + (uniqueSentences.length > 0 ? '.' : '');
-  };
-  
-  // Updates all company data state variables with proper fallbacks
-  const updateCompanyData = useCallback((data) => {
-    const company = data.data || data;
-    const name = company.name || 'Unknown Company';
-    
-    // Set the display name
-    setDisplayName(name);
-    
-    // Process and set description
-    const processedDescription = processDescription(company.description, name);
-    setDescription(processedDescription);
-    
-    // Generate fallbacks based on company name
-    const generateWebsiteFallback = () => {
-      return `www.${name.toLowerCase().replace(/[^\w]/g, '')}.com`;
-    };
-    
-    const getIndustryFallback = () => {
-      const lowerName = name.toLowerCase();
-      if (lowerName.includes('tech') || lowerName.includes('soft') || 
-          lowerName.includes('data') || lowerName.includes('ai')) 
-        return 'Technology';
-      if (lowerName.includes('bank') || lowerName.includes('finance') || 
-          lowerName.includes('capital')) 
-        return 'Finance';
-      if (lowerName.includes('health') || lowerName.includes('med') || 
-          lowerName.includes('care')) 
-        return 'Healthcare';
-      if (lowerName.includes('retail') || lowerName.includes('shop')) 
-        return 'Retail';
-      return 'Technology';
-    };
-    
-    // Set all the company data fields with appropriate fallbacks
-    setFounded(company.founded && company.founded !== "Unknown" 
-      ? company.founded 
-      : `Est. ${2000 + Math.floor(Math.random() * 20)}`);
-      
-    setHeadquarters(company.headquarters && company.headquarters !== "Unknown" 
-      ? company.headquarters 
-      : "Information not available");
-      
-    setIndustry(company.industry && company.industry !== "Unknown" 
-      ? company.industry 
-      : getIndustryFallback());
-      
-    setEmployeeCount(company.employeeCount && company.employeeCount !== "Unknown" 
-      ? company.employeeCount 
-      : "50-1000 employees");
-      
-    setRevenue(company.revenue && company.revenue !== "Unknown" 
-      ? company.revenue 
-      : "Not publicly disclosed");
-      
-    setWebsite(company.website && company.website !== "Unknown" 
-      ? company.website 
-      : generateWebsiteFallback());
   }, []);
 
   // Function to fetch company information wrapped in useCallback
@@ -348,7 +265,7 @@ function CompanyInfo() {
     } finally {
       setLoading(false);
     }
-  }, [navigate, updateCompanyData]); // Added missing dependencies
+  }, []); // Empty dependency array
 
   // Function to search for companies
   const searchCompanies = async (query) => {
@@ -455,6 +372,12 @@ function CompanyInfo() {
     }
   };
 
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
+  };
+
   const handleClear = () => {
     // Reset all states
     setCompanyName('');
@@ -491,6 +414,89 @@ function CompanyInfo() {
     // Make sure navbar is visible
     setShowNavbar(true);
   }, [jobDetails, fetchCompanyInfo, setShowNavbar]); // Dependencies
+
+  // Process raw text to prevent duplicate entries
+  const processDescription = (desc, name) => {
+    if (!desc) return `Information about ${name} is being compiled.`;
+    
+    // First, remove the exact duplicate paragraphs that often appear twice in a row
+    let cleanText = desc.replace(/^(.+)(?:\s*\n\s*\1\s*)+$/gm, '$1');
+    
+    // Then check if the description contains exact duplicate sentences
+    const sentences = cleanText.split(/\.\s+/);
+    const uniqueSentences = [];
+    const seenSentences = new Set();
+    
+    sentences.forEach(sentence => {
+      // Clean the sentence
+      const cleanSentence = sentence.trim().replace(/\.$/, '');
+      if (cleanSentence && !seenSentences.has(cleanSentence.toLowerCase())) {
+        seenSentences.add(cleanSentence.toLowerCase());
+        uniqueSentences.push(cleanSentence);
+      }
+    });
+    
+    return uniqueSentences.join('. ') + (uniqueSentences.length > 0 ? '.' : '');
+  };
+  
+  // Updates all company data state variables with proper fallbacks
+  const updateCompanyData = (data) => {
+    const company = data.data || data;
+    const name = company.name || 'Unknown Company';
+    
+    // Set the display name
+    setDisplayName(name);
+    
+    // Process and set description
+    const processedDescription = processDescription(company.description, name);
+    setDescription(processedDescription);
+    
+    // Generate fallbacks based on company name
+    const generateWebsiteFallback = () => {
+      return `www.${name.toLowerCase().replace(/[^\w]/g, '')}.com`;
+    };
+    
+    const getIndustryFallback = () => {
+      const lowerName = name.toLowerCase();
+      if (lowerName.includes('tech') || lowerName.includes('soft') || 
+          lowerName.includes('data') || lowerName.includes('ai')) 
+        return 'Technology';
+      if (lowerName.includes('bank') || lowerName.includes('finance') || 
+          lowerName.includes('capital')) 
+        return 'Finance';
+      if (lowerName.includes('health') || lowerName.includes('med') || 
+          lowerName.includes('care')) 
+        return 'Healthcare';
+      if (lowerName.includes('retail') || lowerName.includes('shop')) 
+        return 'Retail';
+      return 'Technology';
+    };
+    
+    // Set all the company data fields with appropriate fallbacks
+    setFounded(company.founded && company.founded !== "Unknown" 
+      ? company.founded 
+      : `Est. ${2000 + Math.floor(Math.random() * 20)}`);
+      
+    setHeadquarters(company.headquarters && company.headquarters !== "Unknown" 
+      ? company.headquarters 
+      : "Information not available");
+      
+    setIndustry(company.industry && company.industry !== "Unknown" 
+      ? company.industry 
+      : getIndustryFallback());
+      
+    setEmployeeCount(company.employeeCount && company.employeeCount !== "Unknown" 
+      ? company.employeeCount 
+      : "50-1000 employees");
+      
+    setRevenue(company.revenue && company.revenue !== "Unknown" 
+      ? company.revenue 
+      : "Not publicly disclosed");
+      
+    setWebsite(company.website && company.website !== "Unknown" 
+      ? company.website 
+      : generateWebsiteFallback());
+  };
 
   // Render the company information
   const renderCompanyInfo = () => {
@@ -736,7 +742,7 @@ function CompanyInfo() {
                         className="search-result-item"
                         onClick={() => handleSelectCompany(result)}
                       >
-                        <span className="company-result-name">{result}</span>
+                        <span className="company-result-name">{typeof result === "string" ? result : result.name}</span>
                         <span className="click-hint">Click to view details</span>
                       </div>
                     ))}
