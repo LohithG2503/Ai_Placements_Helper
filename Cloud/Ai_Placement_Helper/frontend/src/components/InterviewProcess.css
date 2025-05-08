@@ -36,13 +36,45 @@
 }
 
 .interview-rounds {
-  background: linear-gradient(135deg, rgba(232, 221, 255, 0.75), rgba(213, 200, 250, 0.85));
-  border-radius: 16px;
-  padding: 25px;
-  margin-bottom: 25px;
-  border: 1px solid rgba(159, 122, 234, 0.15);
-  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.08);
-  transition: all 0.3s ease-out;
+  padding-left: 20px;
+  margin: 15px 0;
+  list-style-type: decimal;
+}
+
+.interview-rounds li {
+  padding: 10px 0;
+  color: #4b5563;
+  font-size: 1rem;
+  line-height: 1.5;
+  margin-bottom: 8px;
+  position: relative;
+}
+
+/* Style for simple clean numbered lists like in the image */
+ol.interview-rounds {
+  counter-reset: interview-counter;
+  list-style-type: none;
+  padding-left: 10px;
+}
+
+ol.interview-rounds li {
+  counter-increment: interview-counter;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  min-height: 28px;
+  display: flex;
+  align-items: center;
+}
+
+ol.interview-rounds li::before {
+  content: counter(interview-counter) ".";
+  position: absolute;
+  left: 0;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #6d28d9;
+  width: 25px;
 }
 
 .interview-rounds:hover {
@@ -387,4 +419,275 @@ body, html, #root {
   left: 0;
   color: #6d28d9;
   font-weight: bold;
+}
+
+/* Company Info basic styling */
+.basic-info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  margin: 18px 0;
+  width: 100%;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+  background: rgba(233, 227, 255, 0.4);
+  padding: 12px 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(139, 92, 246, 0.08);
+  transition: all 0.2s ease;
+}
+
+.info-item:hover {
+  background: rgba(233, 227, 255, 0.6);
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.12);
+}
+
+.info-label {
+  font-size: 0.8rem;
+  color: #6b7280;
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+.info-value {
+  font-size: 0.95rem;
+  color: #4c1d95;
+  font-weight: 500;
+}
+
+.info-link {
+  color: #6d28d9;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.info-link:hover {
+  color: #4c1d95;
+  text-decoration: underline;
+}
+
+.source-badge {
+  display: inline-block;
+  background: rgba(139, 92, 246, 0.1);
+  color: #6d28d9;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  margin-bottom: 15px;
+  font-weight: 500;
+}
+
+.about-subsection {
+  margin-bottom: 22px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid rgba(139, 92, 246, 0.1);
+}
+
+.about-subsection h3 {
+  color: #6d28d9;
+  margin-bottom: 12px;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.about-subsection h4 {
+  color: #7c3aed;
+  margin: 12px 0 8px;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.culture-details {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 15px;
+}
+
+.culture-item {
+  display: flex;
+  flex-direction: column;
+  background: rgba(233, 227, 255, 0.3);
+  padding: 12px 15px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.culture-label {
+  font-size: 0.9rem;
+  color: #6b7280;
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+
+.culture-value {
+  font-size: 1rem;
+  color: #4b5563;
+  line-height: 1.5;
+}
+
+.interview-tips {
+  padding-left: 20px;
+  margin: 10px 0;
+}
+
+.interview-tips li {
+  padding: 8px 0;
+  color: #4b5563;
+}
+
+.duration-info {
+  background: rgba(233, 227, 255, 0.3);
+  padding: 12px 15px;
+  border-radius: 8px;
+  margin: 15px 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.duration-label {
+  font-size: 0.9rem;
+  color: #6b7280;
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+
+.duration-value {
+  font-size: 1rem;
+  color: #4b5563;
+}
+
+.last-updated {
+  text-align: right;
+  color: #9ca3af;
+  margin-top: 20px;
+  font-style: italic;
+}
+
+/* Key People and lists */
+.values-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 8px 0;
+}
+
+.values-list li {
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(139, 92, 246, 0.1);
+  color: #4b5563;
+  font-size: 0.9rem;
+}
+
+/* Style for simple clean numbered lists */
+ol.interview-rounds {
+  counter-reset: interview-counter;
+  list-style-type: none;
+  padding-left: 8px;
+  margin: 12px 0;
+}
+
+ol.interview-rounds li {
+  counter-increment: interview-counter;
+  position: relative;
+  padding-left: 28px;
+  margin-bottom: 10px;
+  min-height: 24px;
+  display: flex;
+  align-items: center;
+  font-size: 0.9rem;
+}
+
+ol.interview-rounds li::before {
+  content: counter(interview-counter) ".";
+  position: absolute;
+  left: 0;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #6d28d9;
+  width: 20px;
+}
+
+/* Search Section */
+.search-section {
+  padding: 15px;
+  border-radius: 12px;
+  margin-bottom: 18px;
+  gap: 12px;
+}
+
+.search-input {
+  padding: 10px 15px;
+  font-size: 0.9rem;
+  border-radius: 8px;
+}
+
+.search-button, .clear-button {
+  padding: 8px 15px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+/* Logout button */
+.logout-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: linear-gradient(135deg, #8b5cf6, #7c4dff);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 0.9rem;
+  box-shadow: 0 2px 6px rgba(139, 92, 246, 0.15);
+  transition: all 0.2s ease;
+}
+
+.logout-btn:hover {
+  background: linear-gradient(135deg, #7c4dff, #6d42df);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(139, 92, 246, 0.25);
+}
+
+.extended-description {
+  margin: 12px 0;
+  line-height: 1.5;
+}
+
+.extended-description p {
+  margin-bottom: 10px;
+  color: #4b5563;
+  font-size: 0.9rem;
+}
+
+.technologies-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.technology-tag {
+  background: rgba(139, 92, 246, 0.15);
+  color: #6d28d9;
+  padding: 5px 10px;
+  border-radius: 16px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.technology-tag:hover {
+  background: rgba(139, 92, 246, 0.25);
+  transform: translateY(-1px);
+}
+
+.values-list li:last-child {
+  border-bottom: none;
 } 

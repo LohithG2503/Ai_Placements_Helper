@@ -1,0 +1,405 @@
+[
+  {
+    "name": "Google",
+    "description": "Google LLC is an American multinational technology company focusing on search engine technology, online advertising, cloud computing, computer software, quantum computing, e-commerce, artificial intelligence, and consumer electronics.",
+    "extendedDescription": [
+      "Google LLC is an American multinational technology company focusing on search engine technology, online advertising, cloud computing, computer software, quantum computing, e-commerce, artificial intelligence, and consumer electronics.",
+      "Founded in 1998 by Larry Page and Sergey Brin while they were Ph.D. students at Stanford University, Google has grown to offer a wide range of products beyond its core search engine, including Gmail, Google Maps, Google Drive, and YouTube.",
+      "The company's mission is to organize the world's information and make it universally accessible and useful. Google is a subsidiary of Alphabet Inc., which was created in 2015 as part of a corporate restructuring."
+    ],
+    "industry": "Technology, Internet, Cloud Computing, Artificial Intelligence",
+    "founded": "September 4, 1998",
+    "headquarters": "Mountain View, California, United States",
+    "employeeCount": "156,500+",
+    "website": "https://about.google",
+    "revenue": "$257.6 billion (2021)",
+    "keyPeople": ["Sundar Pichai (CEO)", "Larry Page (Co-founder)", "Sergey Brin (Co-founder)"],
+    "businessSegments": ["Search", "Advertising", "Cloud Computing", "Android", "YouTube", "Hardware"],
+    "source": "Seed Data",
+    "lastUpdated": "2023-04-07T00:00:00.000Z",
+    "technologies": [
+      "TensorFlow",
+      "Kubernetes",
+      "Angular",
+      "Go",
+      "Python",
+      "Java",
+      "Cloud Computing",
+      "Machine Learning"
+    ],
+    "products": [
+      "Google Search",
+      "Gmail",
+      "Google Maps",
+      "Google Cloud Platform",
+      "YouTube",
+      "Android",
+      "Chrome"
+    ],
+    "services": [
+      "Google Workspace",
+      "Google Ads",
+      "Google Cloud",
+      "YouTube Premium"
+    ]
+  },
+  {
+    "name": "Microsoft",
+    "description": "Microsoft Corporation is an American multinational technology corporation which produces computer software, consumer electronics, personal computers, and related services.",
+    "extendedDescription": [
+      "Microsoft is a multinational technology company that develops, manufactures, licenses, supports, and sells computer software, consumer electronics, personal computers, and related services.",
+      "Founded in 1975 by Bill Gates and Paul Allen, Microsoft has grown to become one of the most valuable companies in the world. The company's flagship products include Windows operating system, Microsoft Office suite, and Azure cloud services.",
+      "Under CEO Satya Nadella's leadership since 2014, Microsoft has pivoted to focus on cloud computing and artificial intelligence while maintaining its strong position in productivity software and operating systems.",
+      "The company is also known for its hardware products including Xbox gaming consoles, Surface line of laptops and tablets, and more recently, mixed reality headsets with HoloLens."
+    ],
+    "industry": "Technology, Software, Cloud Computing, Gaming",
+    "founded": "April 4, 1975",
+    "headquarters": "Redmond, Washington, United States",
+    "employeeCount": "181,000+",
+    "website": "https://www.microsoft.com",
+    "revenue": "$168.1 billion (2021)",
+    "keyPeople": ["Satya Nadella (CEO)", "Bill Gates (Co-founder)", "Paul Allen (Co-founder)"],
+    "businessSegments": ["Office Suite", "Windows", "Azure", "Xbox", "Surface", "LinkedIn"],
+    "source": "Seed Data",
+    "lastUpdated": "2023-04-07T00:00:00.000Z",
+    "culture": {
+      "workLifeBalance": "Strong emphasis on work-life balance",
+      "learningOpportunities": "Extensive learning resources and certification programs",
+      "teamEnvironment": "Collaborative and innovative",
+      "values": ["Innovation", "Diversity & Inclusion", "Corporate Social Responsibility", "Growth Mindset"]
+    },
+    "benefits": {
+      "healthcare": "Comprehensive medical coverage",
+      "insurance": "Life and disability insurance",
+      "leaves": "Generous paid time off and parental leave",
+      "additionalPerks": ["Stock options", "401(k) matching", "Employee discounts", "Wellness programs"]
+    },
+    "careerGrowth": {
+      "promotionOpportunities": "Merit-based growth with clear career paths",
+      "trainingPrograms": "Microsoft Learn, technical certifications",
+      "mentorship": "Strong mentorship culture"
+    },
+    "interviewProcess": {
+      "rounds": ["Online assessment", "Technical interviews", "System design", "Behavioral interviews"],
+      "typicalDuration": "4-6 weeks",
+      "tips": ["Strong problem-solving skills", "Data structures knowledge", "System design principles"]
+    },
+    "technologies": [
+      "Azure",
+      ".NET",
+      "C#",
+      "TypeScript",
+      "React",
+      "Windows",
+      "SQL Server",
+      "AI",
+      "Machine Learning"
+    ],
+    "products": [
+      "Windows",
+      "Office 365",
+      "Azure",
+      "Xbox",
+      "Surface",
+      "HoloLens"
+    ],
+    "services": [
+      "Microsoft 365",
+      "Azure Cloud Services",
+      "Dynamics 365",
+      "GitHub",
+      "LinkedIn"
+    ]
+  },
+  {
+    "name": "Amazon",
+    "description": "Amazon.com, Inc. is an American multinational technology company focusing on e-commerce, cloud computing, digital streaming, and artificial intelligence.",
+    "extendedDescription": [
+      "Amazon is a multinational technology company focusing on e-commerce, cloud computing, digital streaming, and artificial intelligence. Founded by Jeff Bezos in 1994 as an online bookstore, Amazon has expanded to become one of the world's most valuable companies and a leader in multiple technology sectors.",
+      "From its humble beginnings, Amazon has grown into the world's largest online marketplace, AI assistant provider, and cloud computing platform. The company has revolutionized retail with its vast selection, competitive pricing, and efficient delivery systems, including Amazon Prime which offers same-day or next-day delivery in many areas.",
+      "Amazon Web Services (AWS), launched in 2006, has become the world's leading cloud platform, providing infrastructure services to businesses of all sizes, from startups to large enterprises. AWS powers a significant portion of the internet, including major websites and applications."
+    ],
+    "industry": "E-commerce, Cloud Computing, Digital Streaming",
+    "founded": "July 5, 1994",
+    "headquarters": "Seattle, Washington, United States",
+    "employeeCount": "1,468,000+",
+    "website": "https://www.amazon.com",
+    "revenue": "$469.8 billion (2021)",
+    "keyPeople": ["Andy Jassy (CEO)", "Jeff Bezos (Founder and Executive Chairman)"],
+    "businessSegments": ["E-commerce", "AWS", "Prime Video", "Alexa", "Kindle", "Whole Foods"],
+    "source": "Seed Data",
+    "lastUpdated": "2023-04-07T00:00:00.000Z",
+    "culture": {
+      "workLifeBalance": "Fast-paced environment with high expectations",
+      "learningOpportunities": "Continuous learning and innovation encouraged",
+      "teamEnvironment": "Results-oriented with focus on customer obsession",
+      "values": ["Customer Obsession", "Ownership", "Invent and Simplify", "Learn and Be Curious", "Hire and Develop the Best"]
+    },
+    "interviewProcess": {
+      "rounds": ["Online assessment", "Phone screens", "Technical rounds", "Bar raiser interview", "Leadership principle discussions"],
+      "typicalDuration": "3-6 weeks",
+      "tips": ["Study Amazon leadership principles", "Prepare STAR method answers", "Focus on customer-centric thinking"]
+    },
+    "technologies": [
+      "AWS",
+      "Java",
+      "Python",
+      "JavaScript",
+      "React",
+      "Node.js",
+      "Machine Learning",
+      "AI"
+    ],
+    "products": [
+      "Amazon.com (E-commerce)",
+      "Amazon Web Services (Cloud)",
+      "Alexa",
+      "Kindle",
+      "Fire TV",
+      "Echo devices"
+    ],
+    "services": [
+      "Amazon Prime",
+      "Amazon Music",
+      "Prime Video",
+      "Amazon Fresh"
+    ]
+  },
+  {
+    "name": "Apple",
+    "description": "Apple Inc. is an American multinational technology company that specializes in consumer electronics, software and online services.",
+    "extendedDescription": [
+      "Founded in 1976 by Steve Jobs, Steve Wozniak, and Ronald Wayne, Apple has grown to become one of the world's most valuable companies and a leading provider of consumer electronics, software, and online services.",
+      "The company's products include the iPhone, iPad, Mac, Apple Watch, Apple TV, and Apple Music.",
+      "Apple's services include Apple Music, Apple TV+, Apple Arcade, Apple News+, and Apple Cloud Services."
+    ],
+    "industry": "Consumer Electronics, Software, Online Services",
+    "founded": "April 1, 1976",
+    "headquarters": "Cupertino, California, United States",
+    "employeeCount": "154,000+",
+    "website": "https://www.apple.com",
+    "revenue": "$365.8 billion (2021)",
+    "keyPeople": ["Tim Cook (CEO)", "Steve Jobs (Co-founder)", "Steve Wozniak (Co-founder)"],
+    "businessSegments": ["iPhone", "Mac", "iPad", "Services", "Wearables", "Accessories"],
+    "source": "Seed Data",
+    "lastUpdated": "2023-04-07T00:00:00.000Z",
+    "culture": {
+      "workLifeBalance": "High standards with good benefits",
+      "learningOpportunities": "Innovation-focused learning",
+      "teamEnvironment": "Secretive but collaborative",
+      "values": ["Innovation", "Quality", "Simplicity", "Privacy"]
+    },
+    "benefits": {
+      "healthcare": "Comprehensive medical coverage",
+      "insurance": "Life and disability insurance",
+      "leaves": "Generous paid time off",
+      "additionalPerks": ["Employee discounts", "Stock purchase program", "Wellness programs"]
+    },
+    "careerGrowth": {
+      "promotionOpportunities": "Merit-based advancement",
+      "trainingPrograms": "Technical and leadership development",
+      "mentorship": "Available for key roles"
+    },
+    "interviewProcess": {
+      "rounds": ["Phone screening", "Technical interviews", "Team fit", "Design thinking"],
+      "typicalDuration": "4-8 weeks",
+      "tips": ["Focus on innovation", "Attention to detail", "User-centric thinking"]
+    }
+  },
+  {
+    "name": "Squarespace",
+    "description": "Squarespace is an American website building and hosting company which is based in New York City. It provides software as a service for website building and hosting, and allows users to use pre-built website templates and drag-and-drop elements to create websites.",
+    "industry": "Web Development, E-commerce, Website Hosting",
+    "founded": "October 2003",
+    "headquarters": "New York City, New York, United States",
+    "employeeCount": "1,600+",
+    "website": "https://www.squarespace.com",
+    "revenue": "US$784 million (2021)",
+    "keyPeople": ["Anthony Casalena (CEO & Founder)"],
+    "businessSegments": ["Website Building", "Hosting", "Domain Registration", "E-commerce", "Marketing Tools"],
+    "source": "Seed Data",
+    "lastUpdated": "2023-04-07T00:00:00.000Z"
+  },
+  {
+    "name": "Tata Consultancy Services",
+    "description": "TCS is India's largest IT services company and one of the largest multinational companies globally.",
+    "headquarters": "Mumbai, India",
+    "industry": "Information Technology",
+    "founded": "1968",
+    "employeeCount": "600000+",
+    "revenue": "$25.7 billion (2023)",
+    "website": "https://www.tcs.com",
+    "source": "database",
+    "culture": {
+      "workLifeBalance": "Good work-life balance with flexible hours",
+      "learningOpportunities": "Extensive training programs and certifications",
+      "teamEnvironment": "Collaborative and professional",
+      "values": ["Integrity", "Leading Change", "Excellence", "Respect for the Individual", "Learning and Sharing"]
+    },
+    "benefits": {
+      "healthcare": "Comprehensive medical coverage",
+      "insurance": "Life and accident insurance",
+      "leaves": "Paid time off, sick leave, and parental leave",
+      "additionalPerks": ["Transportation facilities", "Gym membership", "Food subsidies"]
+    },
+    "careerGrowth": {
+      "promotionOpportunities": "Regular performance reviews and promotions",
+      "trainingPrograms": "TCS Learning Platform, Digital Learning",
+      "mentorship": "Formal mentorship programs available"
+    },
+    "interviewProcess": {
+      "rounds": ["Online test", "Technical interview", "HR interview", "Managerial round"],
+      "typicalDuration": "2-4 weeks",
+      "tips": ["Focus on core concepts", "Practice coding problems", "Research company values"]
+    }
+  },
+  {
+    "name": "Infosys",
+    "description": "Infosys is a global leader in next-generation digital services and consulting, enabling clients in more than 56 countries to navigate their digital transformation.",
+    "headquarters": "Bangalore, India",
+    "industry": "Information Technology",
+    "founded": "1981",
+    "employeeCount": "300,000+",
+    "revenue": "$18.2 billion (2023)",
+    "website": "https://www.infosys.com",
+    "source": "database",
+    "ceo": "Salil Parekh",
+    "socialMedia": {
+      "linkedin": "https://www.linkedin.com/company/infosys/",
+      "twitter": "https://twitter.com/Infosys",
+      "facebook": "https://www.facebook.com/Infosys/",
+      "instagram": "https://www.instagram.com/infosys/",
+      "youtube": "https://www.youtube.com/user/Infosys"
+    },
+    "culture": {
+      "workLifeBalance": "Structured work hours with good balance; varies by project and client",
+      "learningOpportunities": "Extensive through Infosys Learning Platform, certifications, and training programs",
+      "teamEnvironment": "Global teams with diverse culture; collaborative work environment",
+      "values": ["Client Value", "Leadership by Example", "Integrity and Transparency", "Fairness", "Excellence", "Respect for Individual"]
+    },
+    "interviewProcess": {
+      "rounds": ["Online assessment (InfyTQ for freshers)", "Technical/domain interview", "HR discussion", "Manager/client interview for experienced candidates"],
+      "typicalDuration": "2-3 weeks for experienced professionals; longer for campus recruitment",
+      "tips": ["Strong understanding of programming fundamentals for technical roles", "Excellent communication skills", "Analytical thinking ability"]
+    }
+  },
+  {
+    "name": "Accenture",
+    "description": "Accenture is a global professional services company with leading capabilities in digital, cloud and security.",
+    "headquarters": "Dublin, Ireland",
+    "industry": "Professional Services",
+    "founded ": "1989",
+    "employeeCount": "774,000",
+    "revenue": "$64.1 billion (2023)",
+    "website": "https://www.accenture.com",
+    "source": "database",
+    "ceo": "Julie Sweet",
+    "culture": {
+      "workLifeBalance": "Flexible working hours and remote work options, though varies by project",
+      "learningOpportunities": "Continuous learning through Accenture Connected Learning and specialized academies",
+      "teamEnvironment": "Diverse and inclusive workplace with global teaming opportunities",
+      "values": ["Stewardship", "Best People", "Client Value Creation", "One Global Network", "Respect for the Individual", "Integrity"]
+    },
+    "interviewProcess": {
+      "rounds": ["Online assessment", "Technical interview", "HR interview", "Case study presentation", "Final partner/managing director discussion"],
+      "typicalDuration": "3-4 weeks",
+      "tips": ["Research latest technology trends", "Prepare case studies", "Show adaptability", "Demonstrate client-focused mindset"]
+    }
+  },
+  {
+    "name": "Wipro",
+    "description": "Wipro Limited is a leading global information technology, consulting and business process services company.",
+    "headquarters": "Bangalore, India",
+    "industry": "Information Technology",
+    "founded": "1945",
+    "employeeCount": "250,000+",
+    "revenue": "$10.4 billion (2022)",
+    "website": "https://www.wipro.com",
+    "source": "database",
+    "ceo": "Thierry Delaporte",
+    "culture": {
+      "workLifeBalance": "Good work-life balance policies",
+      "learningOpportunities": "Continuous learning environment",
+      "teamEnvironment": "Collaborative and inclusive",
+      "values": ["Spirit of Wipro", "Innovation", "Customer Focus", "Quality"]
+    },
+    "interviewProcess": {
+      "rounds": ["Online test", "Technical interview", "HR round", "Project manager round"],
+      "typicalDuration": "2-3 weeks",
+      "tips": ["Technical fundamentals", "Communication skills", "Problem-solving ability"]
+    }
+  },
+  {
+    "name": "Tesla",
+    "description": "Tesla, Inc. is an American multinational automotive and clean energy company that designs and manufactures electric vehicles, battery energy storage, solar panels and roof tiles, and related products and services.",
+    "headquarters": "Austin, Texas, USA",
+    "industry": "Automotive, Clean Energy",
+    "founded": "2003",
+    "employeeCount": "127,000+",
+    "revenue": "$96.8 billion (2023)",
+    "website": "https://www.tesla.com",
+    "source": "database",
+    "culture": {
+      "workLifeBalance": "Fast-paced, high-intensity work environment",
+      "learningOpportunities": "Innovative problem-solving and rapid development",
+      "teamEnvironment": "Mission-driven teams focused on sustainability",
+      "values": ["Accelerating the world's transition to sustainable energy", "Innovation", "Excellence", "Challenging the status quo"]
+    },
+    "interviewProcess": {
+      "rounds": ["Initial screening", "Technical assessment", "Multiple panel interviews", "Problem-solving test"],
+      "typicalDuration": "2-6 weeks",
+      "tips": ["Show passion for Tesla's mission", "Demonstrate innovative thinking", "Highlight ability to work in fast-paced environments"]
+    }
+  },
+  {
+    "name": "Peloton",
+    "description": "Peloton Interactive, Inc. is an American exercise equipment and media company based in New York City. Peloton's main products include internet-connected stationary bicycles and treadmills that enable monthly subscribers to remotely participate in classes via streaming media.",
+    "extendedDescription": [
+      "Peloton Interactive, Inc. is an American exercise equipment and media company that was founded in 2012.",
+      "The company's primary offerings are internet-connected stationary bicycles and treadmills that enable monthly subscribers to remotely participate in classes via streaming media.",
+      "Peloton has revolutionized the fitness industry with its combination of high-quality hardware, immersive digital content, and community features.",
+      "The company went public in 2019 and experienced significant growth during the COVID-19 pandemic as home fitness solutions became increasingly popular."
+    ],
+    "industry": "Fitness Equipment, Technology, Subscription Media",
+    "founded": "2012",
+    "headquarters": "New York City, New York, United States",
+    "employeeCount": "8,000+",
+    "website": "https://www.onepeloton.com",
+    "revenue": "$4.02 billion (2022)",
+    "keyPeople": ["Barry McCarthy (CEO)", "John Foley (Founder)"],
+    "businessSegments": ["Connected Fitness Products", "Subscription Services", "Digital App"],
+    "source": "JSON",
+    "lastUpdated": "2023-04-09T00:00:00.000Z",
+    "technologies": [
+      "Internet of Things (IoT)",
+      "Streaming Media",
+      "Mobile Applications",
+      "Data Analytics",
+      "Cloud Computing"
+    ],
+    "products": [
+      "Peloton Bike",
+      "Peloton Bike+",
+      "Peloton Tread",
+      "Peloton Guide",
+      "Peloton App"
+    ],
+    "services": [
+      "Live Classes",
+      "On-Demand Workouts",
+      "Peloton Membership",
+      "Peloton Digital Membership"
+    ],
+    "culture": {
+      "workLifeBalance": "Focus on fitness and wellness",
+      "learningOpportunities": "Growing company with various roles",
+      "teamEnvironment": "Passion for fitness and technology",
+      "values": ["Innovation", "Member Experience", "Community", "Authenticity"]
+    },
+    "interviewProcess": {
+      "rounds": ["Initial screening", "Technical/Role interview", "Panel interview", "Final round"],
+      "typicalDuration": "2-4 weeks",
+      "tips": ["Show passion for fitness", "Understand the product", "Emphasize customer experience"]
+    }
+  }
+] 

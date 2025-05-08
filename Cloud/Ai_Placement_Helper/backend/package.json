@@ -1,0 +1,18 @@
+{
+  "type": "module",
+  "dependencies": {
+    "axios": "^1.7.9",
+    "bcryptjs": "^3.0.2",
+    "cheerio": "^1.0.0",
+    "cors": "^2.8.5",
+    "csv-parser": "^3.2.0",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "jsonrepair": "^3.12.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.13.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.3"
+  }
+}

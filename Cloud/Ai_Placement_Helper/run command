@@ -1,0 +1,4 @@
+& "D:\PROJECTS\Ai_Placement_Helper\llama.cpp\build\bin\Release\llama-server.exe" -m "D:\PROJECTS\Ai_Placement_Helper\models\Mistral-7B-Instruct-v0.3-Q4_K_M.gguf" --port 8080 --host 127.0.0.1 --n-gpu-layers 95 --threads 12
+
+
+GOOGLE_API_KEY=AIzaSyAmOm8phMkJhyss6pX4HhQHFgEnsPe9Ohk
