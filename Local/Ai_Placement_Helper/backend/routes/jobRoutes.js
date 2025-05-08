@@ -184,6 +184,9 @@ router.get('/youtube-search', async (req, res) => {
     // Determine company name and job title dynamically
     let company = req.query.companyFromJD || ''; // PRIORITIZE specific param from frontend
     let jobTitle = req.query.jobTitleFromJD || ''; // PRIORITIZE specific param from frontend
+    if (Array.isArray(jobTitle)) {
+        jobTitle = jobTitle[0];
+    }
     const rawQuery = req.query.query || ""; // The combined query string (used as fallback)
 
     // If specific params are missing, fallback to parsing rawQuery (less reliable)

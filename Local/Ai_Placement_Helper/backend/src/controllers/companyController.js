@@ -771,9 +771,11 @@ async function fetchFromWikidata(companyName) {
  */
 export const searchCompanies = async (req, res) => {
   try {
-    const query = req.params.query || req.query.query;
-    
-    if (!query || query.length < 2) {
+    let query = req.params.query || req.query.query;
+    if (Array.isArray(query)) {
+      query = query[0]; // or handle as needed
+    }
+    if (!query || typeof query !== 'string' || query.length < 2) {
       return res.status(400).json({
         success: false,
         error: 'Search query must be at least 2 characters',
