@@ -62,6 +62,65 @@ function CompanyInfo() {
     loadCompanyList();
   }, []);
 
+  // Updates all company data state variables with proper fallbacks
+  const updateCompanyData = useCallback((data) => {
+    const company = data.data || data;
+    const name = company.name || 'Unknown Company';
+    
+    // Set the display name
+    setDisplayName(name);
+    
+    // Process and set description
+    const processedDescription = processDescription(company.description, name);
+    setDescription(processedDescription);
+    
+    // Generate fallbacks based on company name
+    const generateWebsiteFallback = () => {
+      return `www.${name.toLowerCase().replace(/[^\w]/g, '')}.com`;
+    };
+    
+    const getIndustryFallback = () => {
+      const lowerName = name.toLowerCase();
+      if (lowerName.includes('tech') || lowerName.includes('soft') || 
+          lowerName.includes('data') || lowerName.includes('ai')) 
+        return 'Technology';
+      if (lowerName.includes('bank') || lowerName.includes('finance') || 
+          lowerName.includes('capital')) 
+        return 'Finance';
+      if (lowerName.includes('health') || lowerName.includes('med') || 
+          lowerName.includes('care')) 
+        return 'Healthcare';
+      if (lowerName.includes('retail') || lowerName.includes('shop')) 
+        return 'Retail';
+      return 'Technology';
+    };
+    
+    // Set all the company data fields with appropriate fallbacks
+    setFounded(company.founded && company.founded !== "Unknown" 
+      ? company.founded 
+      : `Est. ${2000 + Math.floor(Math.random() * 20)}`);
+      
+    setHeadquarters(company.headquarters && company.headquarters !== "Unknown" 
+      ? company.headquarters 
+      : "Information not available");
+      
+    setIndustry(company.industry && company.industry !== "Unknown" 
+      ? company.industry 
+      : getIndustryFallback());
+      
+    setEmployeeCount(company.employeeCount && company.employeeCount !== "Unknown" 
+      ? company.employeeCount 
+      : "50-1000 employees");
+      
+    setRevenue(company.revenue && company.revenue !== "Unknown" 
+      ? company.revenue 
+      : "Not publicly disclosed");
+      
+    setWebsite(company.website && company.website !== "Unknown" 
+      ? company.website 
+      : generateWebsiteFallback());
+  }, [setDisplayName, setDescription, setFounded, setHeadquarters, setIndustry, setEmployeeCount, setRevenue, setWebsite]); // Added dependencies for useCallback
+
   // Function to fetch company information wrapped in useCallback
   const fetchCompanyInfo = useCallback(async (company) => {
     if (!company) return;
@@ -265,7 +324,7 @@ function CompanyInfo() {
     } finally {
       setLoading(false);
     }
-  }, [navigate, updateCompanyData]); // Added missing dependencies
+  }, [navigate, updateCompanyData]); // Depends on the memoized updateCompanyData
 
   // Function to search for companies
   const searchCompanies = async (query) => {
@@ -439,65 +498,6 @@ function CompanyInfo() {
     return uniqueSentences.join('. ') + (uniqueSentences.length > 0 ? '.' : '');
   };
   
-  // Updates all company data state variables with proper fallbacks
-  const updateCompanyData = (data) => {
-    const company = data.data || data;
-    const name = company.name || 'Unknown Company';
-    
-    // Set the display name
-    setDisplayName(name);
-    
-    // Process and set description
-    const processedDescription = processDescription(company.description, name);
-    setDescription(processedDescription);
-    
-    // Generate fallbacks based on company name
-    const generateWebsiteFallback = () => {
-      return `www.${name.toLowerCase().replace(/[^\w]/g, '')}.com`;
-    };
-    
-    const getIndustryFallback = () => {
-      const lowerName = name.toLowerCase();
-      if (lowerName.includes('tech') || lowerName.includes('soft') || 
-          lowerName.includes('data') || lowerName.includes('ai')) 
-        return 'Technology';
-      if (lowerName.includes('bank') || lowerName.includes('finance') || 
-          lowerName.includes('capital')) 
-        return 'Finance';
-      if (lowerName.includes('health') || lowerName.includes('med') || 
-          lowerName.includes('care')) 
-        return 'Healthcare';
-      if (lowerName.includes('retail') || lowerName.includes('shop')) 
-        return 'Retail';
-      return 'Technology';
-    };
-    
-    // Set all the company data fields with appropriate fallbacks
-    setFounded(company.founded && company.founded !== "Unknown" 
-      ? company.founded 
-      : `Est. ${2000 + Math.floor(Math.random() * 20)}`);
-      
-    setHeadquarters(company.headquarters && company.headquarters !== "Unknown" 
-      ? company.headquarters 
-      : "Information not available");
-      
-    setIndustry(company.industry && company.industry !== "Unknown" 
-      ? company.industry 
-      : getIndustryFallback());
-      
-    setEmployeeCount(company.employeeCount && company.employeeCount !== "Unknown" 
-      ? company.employeeCount 
-      : "50-1000 employees");
-      
-    setRevenue(company.revenue && company.revenue !== "Unknown" 
-      ? company.revenue 
-      : "Not publicly disclosed");
-      
-    setWebsite(company.website && company.website !== "Unknown" 
-      ? company.website 
-      : generateWebsiteFallback());
-  };
-
   // Render the company information
   const renderCompanyInfo = () => {
     if (!companyInfo) return null;
