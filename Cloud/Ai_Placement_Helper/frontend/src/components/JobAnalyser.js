@@ -1,14 +1,12 @@
 import React, { useContext, useEffect } from "react";
 import { JobContext } from "../context/JobContext";
 import { AuthContext } from "../App";
-import { useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
 import "./JobAnalyser.css";
 
 const JobAnalyser = () => {
   const { jobDetails, showNavbar, setShowNavbar } = useContext(JobContext);
   const { handleLogout } = useContext(AuthContext);
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (jobDetails) {

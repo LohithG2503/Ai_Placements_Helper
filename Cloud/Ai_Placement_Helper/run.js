@@ -80,6 +80,11 @@ async function startApp() {
         await runCommand('npm install', backendPath);
         console.log('✅ Backend dependencies installed\n');
 
+        // Install MistralAI dependency for backend
+        console.log('1a. Installing @mistralai/mistralai for backend...');
+        await runCommand('npm install @mistralai/mistralai', backendPath);
+        console.log('✅ @mistralai/mistralai installed for backend\n');
+
         // Install frontend dependencies
         console.log('2. Installing frontend dependencies...');
         await runCommand('npm install', frontendPath);
