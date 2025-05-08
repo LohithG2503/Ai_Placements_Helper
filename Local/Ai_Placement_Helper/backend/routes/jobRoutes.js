@@ -214,7 +214,7 @@ router.get('/youtube-search', async (req, res) => {
     }
     
     // Ensure jobTitle is not excessively long if derived from raw query fallback
-    if (jobTitle.length > 100) { // Arbitrary limit
+    if (typeof jobTitle === 'string' && jobTitle.length > 100) { // Arbitrary limit
         jobTitle = jobTitle.split(' ').slice(0, 10).join(' '); // Limit length
     }
 
