@@ -24,7 +24,8 @@ router.post("/register", async (req, res) => {
     name = name.trim();
 
     console.log('Cleaned email:', email);
-    console.log('Password length:', password.length);
+    // Avoid logging password or its length for security reasons
+    // console.log('Password length:', password.length);
 
     // Validate password length
     if (password.length < 6) {
