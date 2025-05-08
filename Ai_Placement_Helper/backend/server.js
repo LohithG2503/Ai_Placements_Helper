@@ -7,6 +7,9 @@ import axios from "axios";
 // Load environment variables immediately
 dotenv.config();
 
+// ADD THIS LINE FOR DEBUGGING:
+console.log("[server.js] MISTRAL_API_KEY after dotenv.config():", process.env.MISTRAL_API_KEY);
+
 // Validate required environment variables
 const requiredEnvVars = {
   MONGO_URI: process.env.MONGO_URI,

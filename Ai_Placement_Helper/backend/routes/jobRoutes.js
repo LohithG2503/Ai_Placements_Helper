@@ -1,15 +1,17 @@
 import express from "express";
-import axios from "axios";
-import { jsonrepair } from "jsonrepair";
+// Remove axios and jsonrepair if no longer needed for this specific route after changes
+// import axios from "axios"; 
+import { jsonrepair } from "jsonrepair"; // Re-added import
 import CompanyService from "../src/services/companyService.js";
+import { analyzeJDWithMistral } from "../src/services/mistralService.js"; // Corrected import path
 
 const router = express.Router();
-const AI_MODEL_URL = "http://127.0.0.1:8080/completion";
+// const AI_MODEL_URL = "http://127.0.0.1:8080/completion"; // Commented out or remove
 const companyService = new CompanyService();
 
 /**
  * @route   POST /api/jobs/query
- * @desc    Process job description and extract job details
+ * @desc    Process job description and extract job details using Mistral AI (JSON output)
  * @access  Public
  */
 router.post("/query", async (req, res) => {
@@ -19,6 +21,39 @@ router.post("/query", async (req, res) => {
       return res.status(400).json({ error: "Job description is required" });
     }
 
+    console.log("Processing job description with Mistral AI for JSON output...");
+    const mistralRawResponse = await analyzeJDWithMistral(job_description);
+    console.log("Received raw response from Mistral AI.");
+
+    let jobDetails;
+    try {
+      // First try to parse the response directly
+      console.log("Attempting direct JSON parse...");
+      jobDetails = JSON.parse(mistralRawResponse);
+      console.log("Direct JSON parse successful.");
+    } catch (parseError) {
+      console.warn("Direct JSON parse failed. Attempting with jsonrepair...", parseError.message);
+      try {
+        // If direct parsing fails, try to repair and parse
+        const repairedJsonString = jsonrepair(mistralRawResponse);
+        jobDetails = JSON.parse(repairedJsonString);
+        console.log("JSON parse successful with jsonrepair.");
+      } catch (repairError) {
+        console.error("Could not extract valid JSON from Mistral response even after repair:", repairError.message);
+        console.error("Mistral Raw Response was:", mistralRawResponse); // Log the problematic response
+        throw new Error("Could not extract valid JSON from AI response. Content: " + mistralRawResponse);
+      }
+    }
+
+    // Validate the extracted data (essential fields)
+    if (!jobDetails || !jobDetails.job_title || !jobDetails.company) {
+      console.error("Missing required job details (job_title or company) in parsed JSON.", jobDetails);
+      throw new Error("Missing required job details (job_title or company) after AI processing.");
+    }
+    console.log("Job details successfully parsed:", jobDetails.job_title, jobDetails.company);
+
+    // --- Old AI Model Code - Commented out ---
+    /*
     const response = await axios.post(AI_MODEL_URL, {
       prompt: `Analyze the following job description and extract key information into a JSON object. Follow these rules:
 1. Extract the job title from the "Job Title:" field or the first line if not specified
@@ -61,28 +96,26 @@ ${job_description}`,
         throw new Error("Could not extract valid JSON from response");
       }
     }
-
-    // Validate the extracted data
-    if (!jobDetails.job_title || !jobDetails.company) {
-      throw new Error("Missing required job details");
-    }
+    */ // --- End of Old AI Model Code ---
 
     // Get company information if company name is available
     let companyInfo = null;
-    if (jobDetails.company && jobDetails.company !== "Not specified") {
+    if (jobDetails.company && jobDetails.company.toLowerCase() !== "not specified") {
       try {
+        console.log(`Fetching company info for: ${jobDetails.company}`);
         const result = await companyService.getCompanyInfo(jobDetails.company);
         companyInfo = result.data;
         console.log(`✅ Company info fetched successfully for: ${jobDetails.company}`);
       } catch (companyError) {
-        console.error(`❌ [Company Info Fetching] Error:`, companyError);
-        // Don't fail the entire request if company info fails
+        console.error(`❌ [Company Info Fetching] Error for '${jobDetails.company}':`, companyError.message);
         companyInfo = { 
           name: jobDetails.company,
           description: `Information about ${jobDetails.company} could not be retrieved.`,
           source: "Error"
         };
       }
+    } else {
+      console.log("Company name not specified in AI output or is 'Not specified', skipping company info fetch.");
     }
 
     res.json({ 
@@ -92,7 +125,8 @@ ${job_description}`,
       timestamp: new Date().toISOString()
     });
   } catch (error) {
-    console.error("❌ [Job Processing] Error:", error);
+    console.error("❌ [Job Processing] Error:", error.message);
+    // console.error("❌ [Job Processing] Full Error Object:", error); // For more detailed debugging if needed
     res.status(500).json({ 
       success: false,
       error: "Failed to process job description",
@@ -147,85 +181,86 @@ router.get('/youtube-search', async (req, res) => {
       });
     }
     
-    // Extract search terms from the query
-    const searchTerms = query.trim().split(/\s+/);
-    
     // Determine company name and job title dynamically
-    let company = '';
-    let jobTitle = '';
-    let companyWords = 0;
+    let company = req.query.companyFromJD || ''; // PRIORITIZE specific param from frontend
+    let jobTitle = req.query.jobTitleFromJD || ''; // PRIORITIZE specific param from frontend
+    const rawQuery = req.query.query || ""; // The combined query string (used as fallback)
+
+    // If specific params are missing, fallback to parsing rawQuery (less reliable)
+    if (!company && !jobTitle && rawQuery) {
+        console.warn("⚠️ YouTube search: companyFromJD and jobTitleFromJD query params not provided. Falling back to parsing raw 'query' param. Frontend should be updated for best results.");
+        
+        // Attempt to extract base term before known interview keywords
+        const interviewKeywordsInQuery = ["interview experience", "interview questions", "interview tips", "interview process", "interview"];
+        let splitIndex = -1;
+        for (const kw of interviewKeywordsInQuery) {
+            const idx = rawQuery.toLowerCase().lastIndexOf(kw.toLowerCase());
+            if (idx !== -1) {
+                splitIndex = idx;
+                break;
+            }
+        }
+        let baseSearchTerm = (splitIndex !== -1) ? rawQuery.substring(0, splitIndex).trim() : rawQuery;
+
+        // PROBLEM: Cannot reliably split "CompanyName JobTitle" string here without ambiguity.
+        // Example: "Aetherial Dynamics Inc Lead Synergistic Systems Architect"
+        // We NEED the frontend to send the company and job title separately based on Mistral's initial analysis.
+        // As a last resort, we'll use the whole base term as jobTitle for query generation.
+        jobTitle = baseSearchTerm;
+        company = ""; // Cannot reliably guess company from the combined string here.
+    }
     
-    // Try to identify multi-word company names
-    if (searchTerms.length >= 2) {
-      // First, check for common company name formats with Ltd, Inc, Pvt, etc.
-      const companyRegex = /^(.*?)\s+(ltd|inc|pvt|private|international|corp|limited)$/i;
-      const fullQuery = query.trim();
-      const companyMatch = fullQuery.match(companyRegex);
-      
-      if (companyMatch) {
-        // We found a pattern that looks like a company name
-        company = companyMatch[0];
-        companyWords = company.split(/\s+/).length;
-        jobTitle = searchTerms.slice(companyWords).join(' ');
-      } else {
-        // If no pattern matched, use a sliding window approach
-        // Try different splits to find a reasonable combination
-        for (let i = Math.min(4, searchTerms.length - 1); i >= 1; i--) {
-          const potentialCompany = searchTerms.slice(0, i).join(' ');
-          const potentialJobTitle = searchTerms.slice(i).join(' ');
-          
-          // If both parts are reasonably sized, use this split
-          if (potentialCompany.length >= 3) {
-            company = potentialCompany;
-            companyWords = i;
-            jobTitle = potentialJobTitle;
-            break;
-          }
+    // Ensure jobTitle is not excessively long if derived from raw query fallback
+    if (jobTitle.length > 100) { // Arbitrary limit
+        jobTitle = jobTitle.split(' ').slice(0, 10).join(' '); // Limit length
+    }
+
+    console.log(`🔍 Using for YouTube search: company=\"${company}\", jobTitle=\"${jobTitle}\"`);
+    
+    const generateSearchQueries = (currentCompany, currentJobTitle) => {
+      const queries = [];
+      const interviewKeywords = ["interview questions and answers", "interview experience", "interview tips", "technical interview prep", "behavioral interview prep"];
+
+      // Most specific queries
+      if (currentCompany && currentJobTitle) {
+        queries.push(`"${currentCompany}" "${currentJobTitle}" ${interviewKeywords[0]}`);
+        queries.push(`"${currentCompany}" "${currentJobTitle}" ${interviewKeywords[1]}`);
+      }
+
+      // Broader job title queries
+      if (currentJobTitle) {
+        queries.push(`"${currentJobTitle}" ${interviewKeywords[0]}`);
+        queries.push(`"${currentJobTitle}" ${interviewKeywords[2]}`);
+        
+        const titleWords = currentJobTitle.toLowerCase().split(' ').filter(w => w.length > 2 && !['and', 'the', 'for', 'with', 'lead', 'senior', 'jr', 'sr'].includes(w));
+        
+        // Try key terms from job title (e.g., "Systems Architect", "Software Engineer")
+        if (titleWords.length >= 2) {
+            const twoKeyTerms = titleWords.slice(0, 2).join(' '); // First two significant words
+            queries.push(`"${twoKeyTerms}" ${interviewKeywords[3]}`);
+        } else if (titleWords.length === 1) {
+            queries.push(`"${titleWords[0]}" ${interviewKeywords[3]}`);
         }
       }
       
-      // If we couldn't find a good split, consider the first term the company
-      if (!company) {
-        company = searchTerms[0];
-        companyWords = 1;
-        jobTitle = searchTerms.slice(1).join(' ');
+      // Company-specific interview process (if company is known)
+      if (currentCompany) {
+        queries.push(`"${currentCompany}" interview process`);
+        queries.push(`working at "${currentCompany}" interview`);
       }
-    } else if (searchTerms.length === 1) {
-      // If only one term is provided, consider it the company
-      company = searchTerms[0];
-      companyWords = 1;
-    }
-    
-    console.log(`🔍 Extracted from query: company="${company}", job="${jobTitle}"`);
-    
-    // Generate multiple search variations with emphasis on interview experience
-    const generateSearchQueries = () => {
-      const queries = [];
-      const baseQuery = query.trim();
-      
-      // Start with more specific interview-focused queries
-      if (company && jobTitle) {
-        queries.push(`${company} ${jobTitle} interview questions and answers`);
-        queries.push(`${company} ${jobTitle} interview experience process tips`);
-        queries.push(`how to prepare for ${jobTitle} interview at ${company}`);
-      } else if (company) {
-        queries.push(`${company} job interview process tips questions`);
-        queries.push(`working at ${company} interview experience`);
-      } else if (jobTitle) {
-        queries.push(`${jobTitle} interview questions and answers tips`);
-        queries.push(`how to prepare for ${jobTitle} interview`);
-      } else {
-        queries.push(`${baseQuery} interview questions and answers`);
+
+      // Generic fallback if other queries are too narrow
+      if (currentJobTitle) {
+          queries.push(`"${currentJobTitle.split(' ').slice(0,3).join(' ')}" general interview`); // First 3 words of job title + general interview
       }
-      
-      // Add a fallback query
-      queries.push(`${baseQuery} job interview preparation tips`);
-      
-      return queries;
+      queries.push("tech job interview general tips"); // Absolute fallback
+
+      // Remove duplicates and limit the number of queries to try
+      return [...new Set(queries)].slice(0, 6); 
     };
     
-    const searchQueries = generateSearchQueries();
-    console.log(`🔍 Primary search query: "${searchQueries[0]}"`);
+    let searchQueries = generateSearchQueries(company, jobTitle);
+    console.log(`🔍 Generated YouTube search queries:`, searchQueries);
     
     // Get YouTube API key from environment
     const API_KEY = process.env.GOOGLE_KG_API_KEY;
@@ -239,171 +274,156 @@ router.get('/youtube-search', async (req, res) => {
     
     const BASE_URL = 'https://www.googleapis.com/youtube/v3';
     
-    // Try to get results from all queries in parallel
-    const searchPromises = searchQueries.slice(0, 3).map(async (searchQuery) => {
-      try {
-        const response = await fetch(
-          `${BASE_URL}/search?part=snippet&q=${encodeURIComponent(
-            searchQuery
-          )}&maxResults=${maxResults * 2}&type=video&relevanceLanguage=en&videoEmbeddable=true&key=${API_KEY}`
-        );
-        
-        if (!response.ok) {
-          console.error(`Error with query "${searchQuery}": ${response.statusText}`);
-          return [];
-        }
-        
-        const data = await response.json();
-        return data.items || [];
-      } catch (error) {
-        console.error(`Error with query "${searchQuery}": ${error.message}`);
-        return [];
-      }
-    });
-    
-    // Wait for all searches to complete
-    const searchResults = await Promise.all(searchPromises);
-    
-    // Combine all results
     let allResults = [];
-    searchResults.forEach(results => {
-      allResults = [...allResults, ...results];
+    let searchedAllQueries = false;
+
+    // Iteratively try queries until we get enough results or run out of queries
+    for (let i = 0; i < searchQueries.length; i++) {
+        const currentQuery = searchQueries[i];
+        console.log(`🚀 Attempting YouTube search with query: "${currentQuery}"`);
+        try {
+            const response = await fetch(
+              `${BASE_URL}/search?part=snippet&q=${encodeURIComponent(currentQuery)}&maxResults=${maxResults * 2}&type=video&relevanceLanguage=en&videoEmbeddable=true&key=${API_KEY}`
+            );
+            
+            if (!response.ok) {
+              console.error(`Error with query "${currentQuery}": ${response.statusText}`);
+              continue; // Try next query
+            }
+            
+            const data = await response.json();
+            if (data.items && data.items.length > 0) {
+                console.log(`✅ Found ${data.items.length} results for query: "${currentQuery}"`);
+                allResults = [...allResults, ...data.items];
+                // If we get a decent number of results, we might stop early
+                // or collect from a few queries to get diversity.
+                // For now, let's try to get results from up to 2 successful queries or if many results from one.
+                if (allResults.length >= maxResults * 1.5 && i < 2) { // If we have enough from early specific queries
+                    // If first query yields many, maybe don't need others
+                }
+                 if (allResults.length >= maxResults * 3) { // Stop if we have plenty of videos
+                    searchedAllQueries = (i + 1) === searchQueries.length;
+                    break; 
+                }
+            } else {
+                console.log(`😕 No results for query: "${currentQuery}"`);
+            }
+        } catch (error) {
+            console.error(`Error with query "${currentQuery}": ${error.message}`);
+        }
+        if (i === searchQueries.length - 1) searchedAllQueries = true;
+    }
+    
+    console.log(`Retrieved ${allResults.length} total results from ${searchedAllQueries ? 'all' : 'some'} attempted queries.`);
+    
+    // Deduplicate results based on videoId
+    const uniqueVideoIds = new Set();
+    const uniqueResults = allResults.filter(video => {
+        if (video.id && video.id.videoId && !uniqueVideoIds.has(video.id.videoId)) {
+            uniqueVideoIds.add(video.id.videoId);
+            return true;
+        }
+        return false;
     });
-    
-    console.log(`Retrieved ${allResults.length} total results from all queries`);
-    
-    if (allResults.length === 0) {
-      // If we got no results at all, try a more generic query
+    allResults = uniqueResults;
+    console.log(`Found ${allResults.length} unique videos.`);
+
+    if (allResults.length === 0 && rawQuery) { // Only if all generated queries failed and there was an original raw query
       try {
-        console.log("No results found, trying a generic interview query...");
-        const genericQuery = company 
-          ? `${company} interview` 
-          : (jobTitle ? `${jobTitle} interview tips` : "job interview preparation");
-        
+        console.log("No results found from generated queries, trying a broader search with the original full base query...");
+        const fallbackQuery = `${baseSearchTerm} interview tips`; // Use the processed baseSearchTerm
         const response = await fetch(
-          `${BASE_URL}/search?part=snippet&q=${encodeURIComponent(
-            genericQuery
-          )}&maxResults=${maxResults * 2}&type=video&relevanceLanguage=en&videoEmbeddable=true&key=${API_KEY}`
+          `${BASE_URL}/search?part=snippet&q=${encodeURIComponent(fallbackQuery)}&maxResults=${maxResults}&type=video&relevanceLanguage=en&videoEmbeddable=true&key=${API_KEY}`
         );
-        
         if (response.ok) {
           const data = await response.json();
           allResults = data.items || [];
+          console.log(`Found ${allResults.length} results from broad fallback query.`);
         }
       } catch (error) {
-        console.error('Error with fallback query:', error.message);
+        console.error('Error with broad fallback query:', error.message);
       }
     }
     
-    // Improved scoring algorithm for relevance
-    const scoreVideo = (video) => {
+    // Refined scoring algorithm for relevance
+    const scoreVideo = (video, compName, jobTitleStr) => {
       const title = video.snippet.title.toLowerCase();
       const description = video.snippet.description.toLowerCase();
       const channelTitle = video.snippet.channelTitle.toLowerCase();
-      let score = 0;
-      
-      // Check for company name match (very important)
-      if (company) {
-        const companyLower = company.toLowerCase();
-        const companyTerms = companyLower.split(/\s+/);
-        
-        // Full company name matching
-        if (title.includes(companyLower)) {
-          score += 8; // High score for full company match in title
-        } else if (description.includes(companyLower)) {
-          score += 4; // Medium score for full company match in description
-        }
-        
-        // Individual company terms matching
-        companyTerms.forEach(term => {
-          if (term.length > 2) {
-            if (title.includes(term)) score += 2;
-            if (description.includes(term)) score += 1;
-          }
+      let score = 0.0; // Use floating point for scores
+
+      const compNameLower = compName ? compName.toLowerCase() : "";
+      const jobTitleLower = jobTitleStr ? jobTitleStr.toLowerCase() : "";
+
+      // Company Name Match (High Importance)
+      if (compNameLower) {
+        if (title.includes(compNameLower)) score += 15;
+        else if (description.includes(compNameLower)) score += 7;
+        else if (channelTitle.includes(compNameLower)) score += 5; // Company's own channel potentially
+      }
+
+      // Job Title Match (High Importance)
+      if (jobTitleLower) {
+        if (title.includes(jobTitleLower)) score += 12;
+        else if (description.includes(jobTitleLower)) score += 6;
+
+        // Match keywords from job title
+        const jobKeywords = jobTitleLower.split(' ').filter(w => w.length > 3 && !['lead', 'senior', 'the', 'and', 'for'].includes(w));
+        jobKeywords.forEach(keyword => {
+          if (title.includes(keyword)) score += 3;
+          if (description.includes(keyword)) score += 1.5;
         });
       }
       
-      // Check for job title match
-      if (jobTitle) {
-        const jobTitleLower = jobTitle.toLowerCase();
-        if (title.includes(jobTitleLower)) {
-          score += 6; // High score for job title match in title
-        } else if (description.includes(jobTitleLower)) {
-          score += 3; // Medium score for job title match in description
-        }
-        
-        // Individual job title terms
-        jobTitle.toLowerCase().split(/\s+/).forEach(term => {
-          if (term.length > 2 && !['and', 'the', 'for', 'with'].includes(term)) {
-            if (title.includes(term)) score += 1.5;
-            if (description.includes(term)) score += 0.5;
-          }
-        });
-      }
-      
-      // Interview-specific content is highly valuable
+      // Interview-specific content (Crucial)
       const interviewKeywords = {
-        // High value keywords
-        primary: ['interview experience', 'interview questions', 'interview process', 'job interview', 'interview preparation'],
-        // Medium value keywords
-        secondary: ['interview', 'interviews', 'interviewing', 'hiring process', 'recruitment process'],
-        // Lower value but still relevant
-        tertiary: ['career', 'job', 'tips', 'advice', 'preparation', 'questions', 'answers']
+        primary: ['interview questions', 'interview experience', 'interview process', 'technical interview', 'coding interview', 'behavioral interview', 'interview preparation', 'system design interview'],
+        secondary: ['interview tips', 'interview guide', 'how to prepare', 'job interview', 'hiring process'],
+        tertiary: ['career advice', 'job search', 'tech skills'] // More generic
       };
-      
-      // Check for high-value interview keywords
+
       interviewKeywords.primary.forEach(keyword => {
-        if (title.includes(keyword)) score += 6;
+        if (title.includes(keyword)) score += 10;
+        if (description.includes(keyword)) score += 5;
+      });
+      interviewKeywords.secondary.forEach(keyword => {
+        if (title.includes(keyword)) score += 7;
         if (description.includes(keyword)) score += 3;
       });
-      
-      // Check for medium-value interview keywords
-      interviewKeywords.secondary.forEach(keyword => {
-        if (title.includes(keyword)) score += 4;
-        if (description.includes(keyword)) score += 2;
-      });
-      
-      // Check for lower-value but still relevant keywords
-      interviewKeywords.tertiary.forEach(keyword => {
+       interviewKeywords.tertiary.forEach(keyword => {
         if (title.includes(keyword)) score += 2;
         if (description.includes(keyword)) score += 1;
       });
-      
-      // Prefer videos from career/educational channels
-      const careerChannelKeywords = ['career', 'job', 'recruit', 'hr', 'interview', 'talent', 'hiring', 'tech', 'learn'];
+
+      // Channel relevance
+      const careerChannelKeywords = ['career', 'job', 'interview coach', 'tech interview', 'software engineer channel', 'hr', 'recruiting'];
       careerChannelKeywords.forEach(keyword => {
-        if (channelTitle.includes(keyword)) score += 1.5;
+        if (channelTitle.includes(keyword)) score += 3;
       });
-      
-      // Negative signals - promotional content or non-interview content
-      const negativeKeywords = ['promotional', 'promotion', 'commercial', 'advertisement', 'product review', 'unboxing'];
-      negativeKeywords.forEach(keyword => {
-        if (title.includes(keyword)) score -= 5;
-        if (description.includes(keyword)) score -= 2;
-      });
-      
-      // Content recency matters - newer content is more valuable
+      if (compNameLower && channelTitle.includes(compNameLower)) score += 5; // Bonus if channel title contains company
+
+      // Content recency
       const publishDate = new Date(video.snippet.publishedAt);
       const now = new Date();
       const ageInYears = (now - publishDate) / (1000 * 60 * 60 * 24 * 365);
+      if (ageInYears < 1) score += 3;
+      else if (ageInYears < 2) score += 1.5;
+      else if (ageInYears > 4) score -= 2;
       
-      if (ageInYears < 1) {
-        score += 3; // Content less than a year old
-      } else if (ageInYears < 2) {
-        score += 2; // Content 1-2 years old
-      } else if (ageInYears < 3) {
-        score += 1; // Content 2-3 years old
-      } else if (ageInYears > 5) {
-        score -= 1; // Older content is less relevant
+      // Penalize clearly irrelevant content (example) - can be expanded
+      if (title.includes("gaming") || title.includes("music video") || title.includes("vlog") && !title.includes("interview")) {
+          if (!jobTitleLower.includes("game") && !compNameLower.includes("game")) score *= 0.1; // Drastically reduce score
       }
-      
+      if (title.toLowerCase().includes("chatgpt") && !jobTitleLower.includes("ai researcher") && !jobTitleLower.includes("machine learning")) score *= 0.5;
+
+
       return score;
     };
     
     // Score and sort videos
     const scoredVideos = allResults.map(video => ({
       video,
-      score: scoreVideo(video)
+      score: scoreVideo(video, company, jobTitle) // Pass company and jobTitle to scoring
     }));
     
     scoredVideos.sort((a, b) => b.score - a.score);

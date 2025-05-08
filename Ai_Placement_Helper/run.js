@@ -85,7 +85,9 @@ async function startApp() {
         await runCommand('npm install', frontendPath);
         console.log('✅ Frontend dependencies installed\n');
 
-        // Start LLM server first
+        // Start LLM server first - THIS SECTION WILL BE MODIFIED
+        console.log('3. Local LLM server startup skipped (using external Mistral API).\n');
+        /* // Commenting out the local LLM server startup
         console.log('3. Starting LLM server...');
         if (fs.existsSync(path.join(llamaPath, 'llama-server.exe'))) {
             openTerminal('LLM Server', `llama-server.exe -m "${modelPath}" --port 8080 --host 127.0.0.1 --n-gpu-layers 95 --threads 12`, llamaPath);
@@ -97,6 +99,7 @@ async function startApp() {
         // Wait for LLM server to start
         console.log('Waiting 3 seconds for LLM server to initialize...');
         await new Promise(resolve => setTimeout(resolve, 3000));
+        */
 
         // Start backend server
         console.log('4. Starting backend server...');

@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@mistralai/mistralai": "^1.6.0",
+    "jsonrepair": "^3.12.0"
+  }
+}
