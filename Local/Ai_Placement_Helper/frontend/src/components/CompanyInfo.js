@@ -10,7 +10,7 @@ import "./Search.css"; // Add this import for search styling
 import "./CompanyInfo.css"; // Add this import for company info styling
 
 function CompanyInfo() {
-  const { jobDetails, showNavbar, setShowNavbar } = useContext(JobContext);
+  const { jobDetails, setShowNavbar } = useContext(JobContext);
   const { handleLogout } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -265,7 +265,7 @@ function CompanyInfo() {
     } finally {
       setLoading(false);
     }
-  }, []); // Empty dependency array
+  }, [navigate, updateCompanyData]); // Added missing dependencies
 
   // Function to search for companies
   const searchCompanies = async (query) => {
@@ -731,6 +731,7 @@ function CompanyInfo() {
                   value={companyName}
                   onChange={handleSearchInputChange}
                   onFocus={handleInputFocus}
+                  onKeyPress={handleKeyPress}
                 />
                 
                 {/* Search results dropdown */}
