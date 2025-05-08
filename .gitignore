@@ -57,3 +57,5 @@ V0 Codes/
 # Misc
 .DS_Store
 *.pem 
+package-lock.json
+package.json
