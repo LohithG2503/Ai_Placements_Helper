@@ -3,6 +3,16 @@ import User from "../database_models/User.js"; // Ensure correct path
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
+import rateLimit from "express-rate-limit";
+
+// Rate limiter for login route: max 5 requests per minute per IP
+const loginLimiter = rateLimit({
+  windowMs: 60 * 1000, // 1 minute
+  max: 5,
+  message: { message: "Too many login attempts from this IP, please try again after a minute." },
+  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+});
 
 const router = express.Router();
 
@@ -61,7 +71,7 @@ router.post("/register", async (req, res) => {
 });
 
 // User login
-router.post("/login", async (req, res) => {
+router.post("/login", loginLimiter, async (req, res) => {
   try {
     console.log('Login attempt:', new Date().toISOString());
     let { email, password } = req.body;
