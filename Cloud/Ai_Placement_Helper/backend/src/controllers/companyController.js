@@ -2,6 +2,7 @@ import CompanyService from '../services/companyService.js';
 import axios from 'axios';
 import dotenv from 'dotenv';
 import path from 'path';
+import _ from 'lodash';
 
 // Load environment variables from the backend directory
 dotenv.config({ path: path.resolve(process.cwd(), '../../backend/.env') });
@@ -314,7 +315,8 @@ async function fetchFromSerpApi(companyName) {
       
       // If industry is unknown, try to extract from snippets
       if (companyData.industry === 'Unknown' || companyData.industry === getIndustryFallback(companyName)) {
-        const industryRegex = new RegExp(`${companyName}.*?(?:is an?|operates in|specializes in)\\s+([\\w\\s,&-]+?)(?:company|business|firm|that|which|\\.|$)`, 'i');
+        const safeCompanyName = _.escapeRegExp(companyName);
+        const industryRegex = new RegExp(`${safeCompanyName}.*?(?:is an?|operates in|specializes in)\\s+([\\w\\s,&-]+?)(?:company|business|firm|that|which|\\.|$)`, 'i');
         
         for (const result of industryResults) {
           if (result.snippet) {
