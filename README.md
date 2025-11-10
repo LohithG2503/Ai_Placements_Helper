@@ -1,90 +1,97 @@
-AI Placement Helper – Dual Implementation Web App
+# AI Placement Helper — Dual Implementation Web App
 
-A modern, full-stack application for job seekers, featuring secure authentication and flexible LLM inference via local llama.cpp or a cloud provider.
+A modern full‑stack application for job seekers. Provides secure authentication and flexible LLM inference either locally (llama.cpp) or via a cloud provider.
 
-Features
-Job Description Analysis: Extracts key skills and requirements.
+---
 
-Company Research: Provides company profiles, interview processes, and more.
+## Key Features
+- Job Description Analysis — extract key skills and requirements.
+- Company Research — company profiles, interview process summaries, and more.
+- Interview Preparation — tips, common questions, and curated resources.
+- Secure Authentication — login/signup backed by JWT (JSON Web Tokens).
+- Dual LLM Implementation:
+  - Local: Run inference on your own hardware with llama.cpp.
+  - Cloud: Connect to "La Platforme" for cloud-based inference.
+- Unified Startup — a single command to start the entire stack (backend, frontend, and LLM server).
 
-Interview Preparation: Delivers tips, common questions, and resources.
+---
 
-Secure Authentication: User login/signup with JWT (JSON Web Tokens).
+## Technology Stack
+- Frontend: React.js  
+- Backend: Express.js / Node.js  
+- Database: MongoDB (Mongoose)  
+- Authentication: JWT (JSON Web Tokens)  
+- Local LLM: llama.cpp  
+- Cloud LLM: La Platforme (or another cloud LLM provider)
 
-Dual LLM Implementation:
+---
+## Project Structure
 
-Local: Runs inference on your own hardware using llama.cpp.
-
-Cloud: Connects to "La Platforme" for cloud-based inference.
-
-Unified Startup: A single command launches the entire stack (backend, frontend, LLM server).
-
-Technology Stack
-Frontend: React.js
-
-Backend: Express.js, Node.js
-
-Database: MongoDB (with Mongoose)
-
-Authentication: JWT (JSON Web Tokens)
-
-Local LLM: llama.cpp
-
-Cloud LLM: La Platforme (or link to specific service)
-
-Project Structure
-Project-3/
+```
+Project/
+├── Cloud/
+│   └── Ai_Placement_Helper/
+│       ├── backend/
+│       ├── frontend/
+│       └── run.js         # Master startup script (cloud)
 │
 ├── Local/
 │   └── Ai_Placement_Helper/
 │       ├── backend/
 │       ├── frontend/
-│       ├── models/  (.gitignore'd, holds .gguf files)
-│       └── run.js   (Master startup script)
-│
-├── Cloud/
-│   └── Ai_Placement_Helper/
-│       ├── backend/
-│       ├── frontend/
-│       └── run.js   (Master startup script)
+│       ├── models/        # Holds .gguf model files (gitignored)
+│       └── run.js         # Master startup script (local)
 │
 └── README.md
-Getting Started
-Prerequisites
-Node.js (v14 or higher)
 
-MongoDB (A local instance or a free MongoDB Atlas string)
+```
+- **backend/** — Express.js server, API, authentication, and database logic  
+- **frontend/** — React.js client application  
+- **models/** (Local only) — LLM model files (.gguf), not included in repo  
+- **run.js** — Unified startup script for backend and frontend
 
-Windows OS (Scripts are tailored for Windows CMD)
+Cloud and Local directories each house a self-contained implementation of the app.	
+---
 
-Git
+## Getting Started
 
-1. Clone the Repository
-Bash
+### Prerequisites
+- Node.js (v14 or higher)  
+- MongoDB (local instance or MongoDB Atlas connection string)  
+- Windows OS (scripts are tailored for Windows CMD)  
+- Git
 
+### 1. Clone the repository
+```bash
 git clone https://github.com/LohithG2503/Project.git
 cd Project
-2. Choose Implementation
-This repo contains two separate implementations. cd into the one you wish to run.
+```
 
-Bash
+### 2. Choose an implementation
+This repo includes two separate implementations. Change into the one you want to run:
 
-# Option 1: For Local LLM (requires powerful hardware)
+- Local LLM (requires powerful hardware)
+```bash
 cd Local/Ai_Placement_Helper
+```
 
-# Option 2: For Cloud LLM (requires API key)
+- Cloud LLM (requires API key)
+```bash
 cd Cloud/Ai_Placement_Helper
-3.Security Configuration (Crucial!)
-Before running, you must create a .env file for security.
+```
 
-Navigate to the backend folder: cd backend
+---
 
-Create a new file named .env
+## Security Configuration (Crucial)
+Before running, create a `.env` file in the `backend` folder.
 
-Copy the contents of .env.example (if present) or add the following:
+1. Navigate to the backend:
+```bash
+cd backend
+```
 
-Code snippet
-
+2. Create `.env` and add the following values (or copy from `.env.example` if available):
+```env
 # MongoDB Connection
 MONGO_URI=your_mongodb_connection_string
 
@@ -96,43 +103,49 @@ SERP_API_KEY=your_serp_api_key
 
 # Server Port
 PORT=5000
-Security Warning: NEVER use weak secrets like "password" or "your_secret_key". A secure JWT_SECRET is vital for protecting user accounts.
+```
 
-Generate a Strong Secret:
+Security warning: NEVER use weak secrets such as `password` or `your_secret_key`. A strong `JWT_SECRET` is essential to protect user accounts.
 
-On WSL/Linux: openssl rand -hex 32
+Generate a strong secret:
+- On WSL / Linux:
+```bash
+openssl rand -hex 32
+```
+- On PowerShell:
+```powershell
+[Convert]::ToBase64String((New-Object Security.Cryptography.RNGCryptoServiceProvider).GetBytes(32))
+```
+Copy the output into `JWT_SECRET`.
 
-On PowerShell: [Convert]::ToBase64String((New-Object Security.Cryptography.RNGCryptoServiceProvider).GetBytes(32))
+---
 
-Copy and paste the output as your JWT_SECRET.
+## Model Files (Local Implementation Only)
+The Local implementation requires LLM model files in `.gguf` format. These files are intentionally excluded due to size.
 
-4. Model Files (Local Implementation Only)
-The Local implementation requires LLM model files (in .gguf format), which are not included in this repository due to their large size.
+1. Download desired model(s) (e.g., Mistral-7B, TinyLlama) from a trusted source (Hugging Face, etc.).
+2. Place `.gguf` files inside:
+```
+Local/Ai_Placement_Helper/models/
+```
+Note: The `models/` folder is in `.gitignore` to avoid committing large files.
 
-Download your desired model(s) (e.g., Mistral-7B, TinyLlama) from a trusted source like Hugging Face.
+---
 
-Place the .gguf files inside the Local/Ai_Placement_Helper/models/ directory.
+## Installation & Execution
+You do not need to run `npm install` in each folder manually — the `run.js` master script handles setup and startup.
 
-This models folder is listed in .gitignore to prevent accidentally committing large files.
-
-5. Installation & Execution
-No need to run npm install in each folder! The run.js script handles everything.
-
-Navigate to your chosen implementation's root (e.g., Local/Ai_Placement_Helper).
-
-Run the master script:
-
-Bash
-
+From the chosen implementation root (for example `Local/Ai_Placement_Helper`), run:
+```bash
 node run.js
-This script will automatically:
+```
 
-Install all npm dependencies for the backend.
+What `run.js` does:
+- Installs npm dependencies for the backend and frontend (if not already installed).
+- Launches the backend server (http://localhost:5000).
+- Launches the frontend development server (http://localhost:3000).
+- If running the Local implementation, starts the llama.cpp server.
 
-Install all npm dependencies for the frontend.
+---
 
-Launch the backend server (http://localhost:5000).
-
-Launch the frontend development server (http://localhost:3000).
-
-(If Local) Launch the llama.cpp server.
+If you want further edits (e.g., add badges, screenshots, or platform-agnostic scripts), tell me what you'd like next and I’ll update the README.
