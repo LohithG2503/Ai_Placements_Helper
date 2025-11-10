@@ -1,129 +1,138 @@
-# AI Placement Helper – Dual Implementation Web App
+AI Placement Helper – Dual Implementation Web App
 
-  **A modern, full-stack application for job seekers, with both Local and Cloud LLM inference!**
+A modern, full-stack application for job seekers, featuring secure authentication and flexible LLM inference via local llama.cpp or a cloud provider.
 
----
+Features
+Job Description Analysis: Extracts key skills and requirements.
 
-## Features
+Company Research: Provides company profiles, interview processes, and more.
 
-- **Job Description Analysis**: Extracts key skills and requirements
-- **Company Research**: Company profiles, interview process, and more
-- **Interview Preparation**: Tips, common questions, and resources
-- **Authentication**: Secure login/signup with JWT
-- **Unified Startup**: One command to launch all services (backend, frontend, LLM server)
+Interview Preparation: Delivers tips, common questions, and resources.
 
----
+Secure Authentication: User login/signup with JWT (JSON Web Tokens).
 
-## Folder Structure
+Dual LLM Implementation:
 
-```
+Local: Runs inference on your own hardware using llama.cpp.
+
+Cloud: Connects to "La Platforme" for cloud-based inference.
+
+Unified Startup: A single command launches the entire stack (backend, frontend, LLM server).
+
+Technology Stack
+Frontend: React.js
+
+Backend: Express.js, Node.js
+
+Database: MongoDB (with Mongoose)
+
+Authentication: JWT (JSON Web Tokens)
+
+Local LLM: llama.cpp
+
+Cloud LLM: La Platforme (or link to specific service)
+
+Project Structure
 Project-3/
 │
-├── Local/         # Local implementation (llama.cpp)
+├── Local/
 │   └── Ai_Placement_Helper/
-│       ├── backend/    # Express.js API
-│       ├── frontend/   # React.js client
-│       ├── data/       # Seed/config data
-│       ├── models/     # LLM models (not in git, see below)
-│       └── ...
+│       ├── backend/
+│       ├── frontend/
+│       ├── models/  (.gitignore'd, holds .gguf files)
+│       └── run.js   (Master startup script)
 │
-├── Cloud/         # Cloud implementation (La Platforme)
+├── Cloud/
 │   └── Ai_Placement_Helper/
-│       ├── backend/    # Express.js API
-│       ├── frontend/   # React.js client
-│       ├── data/       # Seed/config data
-│       └── ...
+│       ├── backend/
+│       ├── frontend/
+│       └── run.js   (Master startup script)
 │
-├── Old Files/     # Legacy code (not maintained)
-│
-└── README.md      # This file
-```
+└── README.md
+Getting Started
+Prerequisites
+Node.js (v14 or higher)
 
----
+MongoDB (A local instance or a free MongoDB Atlas string)
 
-## Getting Started
+Windows OS (Scripts are tailored for Windows CMD)
 
-### Prerequisites
-- Node.js (v14 or higher)
-- MongoDB (local or cloud instance)
-- Windows OS
+Git
 
-### 1. Clone the repository
-```sh
+1. Clone the Repository
+Bash
+
 git clone https://github.com/LohithG2503/Project.git
 cd Project
-```
+2. Choose Implementation
+This repo contains two separate implementations. cd into the one you wish to run.
 
-### 2. Choose your implementation
-- **Local**: For running everything on your machine (no cloud LLM)
-- **Cloud**: For using La Platforme (cloud LLM inference)
+Bash
 
-### 3. Start the Application (Dependencies Auto-Installed!)
-
-**No need to run `npm install` manually!**
-
-Just run the unified startup script for your chosen implementation:
-
-```sh
-# For Local
+# Option 1: For Local LLM (requires powerful hardware)
 cd Local/Ai_Placement_Helper
-node run.js
 
-# For Cloud
+# Option 2: For Cloud LLM (requires API key)
 cd Cloud/Ai_Placement_Helper
-node run.js
-```
+3.Security Configuration (Crucial!)
+Before running, you must create a .env file for security.
 
-This will automatically install all backend and frontend dependencies, then launch the servers in separate terminals.
+Navigate to the backend folder: cd backend
 
----
+Create a new file named .env
 
-### 4. Environment Setup
-Create a `.env` file in the backend directory (for both Local and Cloud):
-```
+Copy the contents of .env.example (if present) or add the following:
+
+Code snippet
+
+# MongoDB Connection
 MONGO_URI=your_mongodb_connection_string
-JWT_SECRET=your_secret_key
-PORT=5000
+
+# JSON Web Token Secret
+JWT_SECRET=your_strong_random_secret_key_here
+
+# API Key for Job/Company Search
 SERP_API_KEY=your_serp_api_key
-```
 
-### 5. Model Files (Local Only)
-- **Large model files are NOT stored in this repo.**
-- Download the required `.gguf` model files (e.g., Mistral-7B, TinyLlama) and place them in:
-  `Local/Ai_Placement_Helper/models/`
-- Example sources: [Hugging Face](https://huggingface.co/), [official model providers]
-- Add a `.gitkeep` file in the models folder to keep it in git if empty.
+# Server Port
+PORT=5000
+Security Warning: NEVER use weak secrets like "password" or "your_secret_key". A secure JWT_SECRET is vital for protecting user accounts.
 
----
+Generate a Strong Secret:
 
-## Usage
-- Access the frontend at [http://localhost:3000](http://localhost:3000)
-- API runs at [http://localhost:5000](http://localhost:5000)
-- Use the web interface to analyze job descriptions, search companies, and prepare for interviews.
+On WSL/Linux: openssl rand -hex 32
 
----
+On PowerShell: [Convert]::ToBase64String((New-Object Security.Cryptography.RNGCryptoServiceProvider).GetBytes(32))
 
-## Contributing
-Contributions are welcome! Please open issues or submit pull requests for improvements or bug fixes.
+Copy and paste the output as your JWT_SECRET.
 
----
+4. Model Files (Local Implementation Only)
+The Local implementation requires LLM model files (in .gguf format), which are not included in this repository due to their large size.
 
-## Troubleshooting
-- Ensure MongoDB is running and accessible.
-- For Local, make sure model files are present in the correct folder.
-- Check terminal output for errors.
-- For large model files, do not attempt to push to GitHub (use external storage).
+Download your desired model(s) (e.g., Mistral-7B, TinyLlama) from a trusted source like Hugging Face.
 
----
+Place the .gguf files inside the Local/Ai_Placement_Helper/models/ directory.
 
-## License
-This project is licensed under the MIT License. See the LICENSE file for details.
+This models folder is listed in .gitignore to prevent accidentally committing large files.
 
----
+5. Installation & Execution
+No need to run npm install in each folder! The run.js script handles everything.
 
-## Acknowledgments
-- [Create React App](https://create-react-app.dev/) for frontend boilerplate
-- [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) for database hosting
-- [llama.cpp](https://github.com/ggerganov/llama.cpp) for local LLM inference
-- [La Platforme](https://platforme.ai/) for cloud LLM inference
-- All contributors and testers
+Navigate to your chosen implementation's root (e.g., Local/Ai_Placement_Helper).
+
+Run the master script:
+
+Bash
+
+node run.js
+This script will automatically:
+
+Install all npm dependencies for the backend.
+
+Install all npm dependencies for the frontend.
+
+Launch the backend server (http://localhost:5000).
+
+Launch the frontend development server (http://localhost:3000).
+
+(If Local) Launch the llama.cpp server.
